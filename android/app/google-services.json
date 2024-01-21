@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "266424134689",
+    "project_id": "mykashwise",
+    "storage_bucket": "mykashwise.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:266424134689:android:73bb0aa54f86fcc1ea0760",
+        "android_client_info": {
+          "package_name": "com.zalelstudios.kashwise"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "266424134689-v39pvidi85hck0j3nudcr2rntlha00ut.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zalelstudios.kashwise",
+            "certificate_hash": "2e675e74530dfb10ec87ff763eb1f4b66b259f88"
+          }
+        },
+        {
+          "client_id": "266424134689-qqcfr45gfal3hvlhh6g9kdm5lgkg1v7o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARV-6p2p8IAwwLqHmAJTjn4S2FNoemiGg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "266424134689-qqcfr45gfal3hvlhh6g9kdm5lgkg1v7o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "266424134689-gjeo3lp4qdkanr6gvdvjue44mqalj6hs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.zalelstudios.kashwise"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,42 @@
+import 'package:flutter/material.dart';
+import '../../constants/colors.dart';
+import '../../constants/sizes.dart';
+
+/* -- Light & Dark Elevated Button Themes -- */
+class TFilledButtonTheme {
+  TFilledButtonTheme._(); //To avoid creating instances
+
+
+  /* -- Light Theme -- */
+  static final lightFilledButtonTheme  = FilledButtonThemeData(
+    style: FilledButton.styleFrom(
+      alignment: Alignment.center,
+      elevation: 0,
+      foregroundColor: TColors.primary,
+      backgroundColor: TColors.grey,
+      surfaceTintColor: TColors.primary,
+      disabledForegroundColor: TColors.darkGrey,
+      disabledBackgroundColor: TColors.buttonDisabled,
+      side: BorderSide(color: TColors.primary.withOpacity(0), width: 0),
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      textStyle: const TextStyle(fontSize: 16, color: TColors.textWhite, fontWeight: FontWeight.w600),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(TSizes.buttonRadius)),
+    ),
+  );
+
+  /* -- Dark Theme -- */
+  static final darkFilledButtonTheme = FilledButtonThemeData(
+    style: FilledButton.styleFrom(
+      alignment: Alignment.center,
+      elevation: 0,
+      foregroundColor: TColors.primary,
+      backgroundColor: TColors.darkerGrey,
+      disabledForegroundColor: TColors.darkGrey,
+      disabledBackgroundColor: TColors.darkGrey,
+      side: BorderSide(color: TColors.primary.withOpacity(0), width: 0),
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      textStyle: const TextStyle(fontSize: 16, color: TColors.textWhite, fontWeight: FontWeight.w600),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(TSizes.buttonRadius)),
+    ),
+  );
+}
