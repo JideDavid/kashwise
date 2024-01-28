@@ -1,6 +1,10 @@
 import "package:card_swiper/card_swiper.dart";
 import "package:flutter/material.dart";
-import "package:paylut/services/pref_helper.dart";
+import "package:kashwise/Views/sign_in_page.dart";
+import "package:kashwise/utils/constants/text_strings.dart";
+
+import "../Services/pref_helper.dart";
+import "../utils/constants/image_strings.dart";
 
 class OnBoarding extends StatefulWidget {
   const OnBoarding({super.key});
@@ -46,7 +50,7 @@ class _OnBoardingState extends State<OnBoarding> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  'assets/backgrounds/onboard1.png',
+                  TImages.onboard1,
                   height: 300,
                 ),
               ],
@@ -63,7 +67,7 @@ class _OnBoardingState extends State<OnBoarding> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                   child: Text(
-                      "Welcome to paylut where you can pay your bills hassle-free, Internet, Cable Tv, utilities and more - all in one place",
+                      "Welcome to ${TTexts.appName} where you can pay your bills hassle-free, Internet, Cable Tv, utilities and more - all in one place",
                   textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 20, color: Colors.grey),
                   ),
@@ -102,7 +106,7 @@ class _OnBoardingState extends State<OnBoarding> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  'assets/backgrounds/onboard2.png',
+                  TImages.onboard2,
                   height: 300,
                 ),
               ],
@@ -158,7 +162,7 @@ class _OnBoardingState extends State<OnBoarding> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  'assets/backgrounds/onboard3.png',
+                  TImages.onboard3,
                   height: 300,
                 ),
               ],
@@ -215,7 +219,7 @@ class _OnBoardingState extends State<OnBoarding> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  'assets/backgrounds/onboard4.png',
+                  TImages.onboard4,
                   height: 300,
                 ),
               ],
@@ -232,7 +236,7 @@ class _OnBoardingState extends State<OnBoarding> {
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                   child: Text(
-                    "Rest easy knowing your transactions are safe and secure with Paylut",
+                    "Rest easy knowing your transactions are safe and secure with ${TTexts.appName}",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 20, color: Colors.grey),
                   ),
@@ -240,7 +244,9 @@ class _OnBoardingState extends State<OnBoarding> {
                 GestureDetector(
                   onTap: (){
                     PrefHelper().setAppIsFresh(false);
-                    Navigator.pushReplacementNamed(context, "/authScreen");
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
+                      return const SignInPage();
+                    }));
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -268,7 +274,7 @@ class _OnBoardingState extends State<OnBoarding> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: showLogo ? Center(
-          child: Image.asset('lib/icons/paylut_logo.png', height: 100,),
+          child: Image.asset(TImages.logoCardVar4, height: 100,),
         )
         : Swiper(
           loop: false,

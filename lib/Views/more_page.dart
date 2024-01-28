@@ -1,8 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kashwise/Custom_Widgets/m_display_picture.dart';
+import 'package:kashwise/Views/sign_in_page.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import '../Custom_Widgets/mNavButton.dart';
@@ -12,7 +10,6 @@ import '../utils/constants/colors.dart';
 import '../utils/constants/image_strings.dart';
 import '../utils/constants/sizes.dart';
 import '../utils/constants/text_strings.dart';
-import 'sign_in_page.dart';
 
 class MorePage extends StatefulWidget {
   const MorePage({super.key});
@@ -22,8 +19,6 @@ class MorePage extends StatefulWidget {
 }
 
 class _MorePageState extends State<MorePage> {
-
-  GoogleSignIn googleSignIn = GoogleSignIn();
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +86,7 @@ class _MorePageState extends State<MorePage> {
                               children: [
                                 Row(
                                   children: [
-                                    MDisplayPic(url: context.watch<UserDetailsProvider>().userDetails.image),
+                                    MDisplayPic(url: context.watch<UserDetailsProvider>().account.image),
                                     const SizedBox(
                                       width: 8,
                                     ),
@@ -100,7 +95,7 @@ class _MorePageState extends State<MorePage> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          context.watch<UserDetailsProvider>().userDetails.name,
+                                          context.watch<UserDetailsProvider>().account.username,
                                           style: Theme.of(context)
                                               .textTheme
                                               .headlineSmall,
@@ -148,7 +143,7 @@ class _MorePageState extends State<MorePage> {
                               children: [
                                 Image.asset(
                                   TImages.brandCardIcon,
-                                  scale: 8,
+                                  scale: 24,
                                 ),
                                 const SizedBox(
                                   width: TSizes.paddingSpaceLg,
@@ -266,14 +261,9 @@ class _MorePageState extends State<MorePage> {
                       ///
                       ///  Sign Out
                       GestureDetector(
-                        onTap: () async {
-                          await FirebaseAuth.instance.signOut();
-                          await googleSignIn.signOut().whenComplete((){
-                            if(kDebugMode){
-                              print(">>>>>>>>>>>>>> google logout <<<<<<<<<<<<<<");
-                            }
-                          });
-                          // ignore: use_build_context_synchronously
+                        onTap: () {
+                          // context.watch<UserDetailsProvider>().signOutGoogleUser();
+                          Provider.of<UserDetailsProvider>(context, listen: false).signOutGoogleUser();
                           PersistentNavBarNavigator.pushNewScreen(
                             context,
                             screen: const SignInPage(),

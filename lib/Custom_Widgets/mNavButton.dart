@@ -3,7 +3,7 @@ import '../utils/constants/colors.dart';
 import '../utils/constants/sizes.dart';
 
 class MNavButton extends StatelessWidget {
-   MNavButton({super.key, required this.function, required this.iconColor,
+  MNavButton({super.key, required this.function, required this.iconColor,
     required this.icon,required this.title, required this.subTitle, });
 
   late final Function function;

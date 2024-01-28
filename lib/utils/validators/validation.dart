@@ -1,6 +1,8 @@
 
+import 'package:kashwise/Services/firebase_services.dart';
+
 class TValidator {
-  static String? validateEmail(String? value) {
+  static String? validateEmail(String? value, bool emailExists) {
     if (value == null || value.isEmpty) {
       return 'Email is required.';
     }
@@ -10,6 +12,26 @@ class TValidator {
 
     if (!emailRegExp.hasMatch(value)) {
       return 'Invalid email address.';
+    }
+
+    if(emailExists){
+      return 'User already exist.';
+    }
+
+    return null;
+  }
+
+  static String? validateUsername(String? value, bool usernameExists) {
+    if (value == null || value.isEmpty) {
+      return 'Username is required.';
+    }
+
+    if(value.trim().length < 5){
+      return 'Username not valid.';
+    }
+
+    if(usernameExists){
+      return 'Username is already taken.';
     }
 
     return null;

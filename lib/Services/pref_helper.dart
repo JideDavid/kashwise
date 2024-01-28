@@ -62,4 +62,19 @@ class PrefHelper{
     pref.setBool("isHidden", val);
   }
 
+  Future<bool> getAppIsFresh() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    bool? val = pref.getBool("appIsFresh");
+    if(val == null) {
+      return true;
+    }else{
+      return val;
+    }
+  }
+
+  setAppIsFresh(bool val) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setBool("appIsFresh", val);
+  }
+
 }

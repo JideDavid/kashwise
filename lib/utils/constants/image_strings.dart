@@ -33,6 +33,14 @@ class TImages {
 
   // -- Standalone
   static const String atmCard = "assets/images/debit_card.png";
+  static const String onboard1 = "assets/images/onboard1.png";
+  static const String onboard2 = "assets/images/onboard2.png";
+  static const String onboard3 = "assets/images/onboard3.png";
+  static const String onboard4 = "assets/images/onboard4.png";
+
+  //--Firebase storage images
+  static const String defaultAvatar = "https://firebasestorage.googleapis.com/v0/b/mykashwise.appspot.com/o/default_images%2Fdefault_avatar.png?alt=media&token=757727b8-6654-4820-8515-95c0e4cfab67";
+
 
   // -- UI feedback images
   static const String empty = "assets/images/empty_ui_feedback.png";
@@ -47,6 +55,17 @@ class TImages {
   // -- Brand Icons
   static const String zalelStudios = "assets/icons/zalelstudios.png";
   static const String googleIcon = "assets/icons/google_icon.png";
+  static const String logoVar1 = "assets/icons/logo_icon_1.png";
+  static const String logoVar2 = "assets/icons/logo_icon_2.png";
+  static const String logoVar3 = "assets/icons/logo_icon_3.png";
+  static const String logoVar4 = "assets/icons/logo_full_1.png";
+  static const String logoVar5 = "assets/icons/logo_full_2.png";
+  static const String logoCardVar1 = "assets/icons/logo_card_1.png";
+  static const String logoCardVar2 = "assets/icons/logo_card_2.png";
+  static const String logoCardVar3 = "assets/icons/logo_card_3.png";
+  static const String logoCardVar4 = "assets/icons/logo_card_4.png";
+  static const String logoCardVar5 = "assets/icons/logo_card_5.png";
+  static const String logoCardVar6 = "assets/icons/logo_card_6.png";
 
 
 

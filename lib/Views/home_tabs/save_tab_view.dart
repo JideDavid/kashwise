@@ -14,7 +14,7 @@ class SaveTabSection extends StatelessWidget {
     return RefreshIndicator(
       color: Theme.of(context).colorScheme.secondary,
       onRefresh: () async {
-        context.read<UserDetailsProvider>().incrementSavings();
+        context.read<UserDetailsProvider>().refreshUserDetails();
       },
       child: SingleChildScrollView(
         child: Column(
@@ -66,6 +66,7 @@ class SaveTabSection extends StatelessWidget {
                           Text(
                             context
                                 .watch<UserDetailsProvider>()
+                                .account
                                 .totalSavings
                                 .toString(),
                             style: Theme.of(context)

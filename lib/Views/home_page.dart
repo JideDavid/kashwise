@@ -1,8 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:kashwise/Custom_Widgets/m_display_picture.dart';
-import 'package:kashwise/Models/user_model.dart';
+import 'package:kashwise/Services/firebase_services.dart';
+import 'package:kashwise/Services/my_printer.dart';
 import 'package:kashwise/View_Models/user_details_provider.dart';
 import 'package:provider/provider.dart';
 import '../View_Models/widget_state_provider.dart';
@@ -48,15 +48,38 @@ class _HomePageState extends State<HomePage> {
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        ///User DP, and Name
                         Row(
                           children: [
                             /// User DP
-                            MDisplayPic(url: context.watch<UserDetailsProvider>().userDetails.image),
+                            context.watch<UserDetailsProvider>().loading
+                            ? Container(
+                              height: SizeConfig.screenWidth * 0.12,
+                              width: SizeConfig.screenWidth * 0.12,
+                              decoration: BoxDecoration(
+                                color: Colors.grey.withOpacity(0.4),
+                                borderRadius: BorderRadius.circular(100),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(TSizes.paddingSpaceLg),
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                              ),
+                            )
+                            : GestureDetector(
+                              onTap: (){},
+                                child: MDisplayPic(url: context.watch<UserDetailsProvider>().account.image)),
                             const SizedBox(
                               width: 8,
                             ),
                             Text(
-                              'Hi, ${context.watch<UserDetailsProvider>().userDetails.name}',
+                              'Hi, ${
+                                  context.watch<UserDetailsProvider>().loading ?
+                                      'User'
+                                  :  context.watch<UserDetailsProvider>().account.username
+                              }',
                               style: Theme.of(context).textTheme.headlineSmall,
                             )
                           ],

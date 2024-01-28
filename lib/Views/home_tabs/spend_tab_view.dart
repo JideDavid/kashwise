@@ -79,7 +79,7 @@ class SpendTabSection extends StatelessWidget {
                                   ?.color,
                             ),
                             Text(
-                              context.watch<UserDetailsProvider>().userDetails.walletBalance
+                              context.watch<UserDetailsProvider>().account.walletBalance
                                   .toString(),
                               style: Theme.of(context)
                                   .textTheme

@@ -104,7 +104,7 @@ class CardsPage extends StatelessWidget {
                         children: [
                           Image.asset(
                             TImages.brandCardIcon,
-                            scale: 8,
+                            scale: 24,
                           ),
                           const SizedBox(
                             width: TSizes.paddingSpaceLg,

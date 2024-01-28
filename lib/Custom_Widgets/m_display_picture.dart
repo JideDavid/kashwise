@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import '../utils/constants/size_config.dart';
 
 class MDisplayPic extends StatelessWidget {
-  MDisplayPic({super.key, required this.url});
+  const MDisplayPic({super.key, required this.url});
 
-  late final String url;
+   final String url;
 
   @override
   Widget build(BuildContext context) {

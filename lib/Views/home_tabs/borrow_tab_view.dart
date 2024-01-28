@@ -61,7 +61,8 @@ class BorrowTabSection extends StatelessWidget {
                         Text(
                           context
                               .watch<UserDetailsProvider>()
-                              .owing
+                              .account
+                              .totalOwe
                               .toString(),
                           style: Theme.of(context)
                               .textTheme

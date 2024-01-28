@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:kashwise/Services/my_printer.dart';
+import 'package:kashwise/View_Models/user_details_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-
 import '../View_Models/login_password_provider.dart';
 import '../utils/constants/size_config.dart';
 import 'cards.dart';
@@ -29,6 +30,7 @@ class _HomeMainState extends State<HomeMain> with WidgetsBindingObserver{
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+
   }
 
   @override
@@ -48,26 +50,17 @@ class _HomeMainState extends State<HomeMain> with WidgetsBindingObserver{
 
     if (isBackground) {
       //checking if the screen is already locked
-      if(Provider.of<LoginPasswordProvider>(context, listen: false).isLocked){
-        if(kDebugMode){
-          print(">>>>>>>>>>>>>>>  screen is locked  <<<<<<<<<<<<<<<<<<");
-        }
-
+      if(Provider.of<LoginPasswordProvider>(context, listen: false).isLocked
+      ){
+        MPrint(value: ">>>>>>>>>>>>>>>  lock screen active  <<<<<<<<<<<<<<<<<<");
       }
       else{
-        if(kDebugMode){
-          print(">>>>>>>>>>>>>>>  screen is not locked  <<<<<<<<<<<<<<<<<<");
-        }
+        MPrint(value: ">>>>>>>>>>>>>>>  lock screen not active  <<<<<<<<<<<<<<<<<<");
 
-        Provider.of<LoginPasswordProvider>(context, listen: false).setIsLocked(true);
-        Navigator.push(context, MaterialPageRoute(builder: (context) => const PasswordLogin()));
+        // Provider.of<LoginPasswordProvider>(context, listen: false).setIsLocked(true);
+        // Navigator.push(context, MaterialPageRoute(builder: (context) => const PasswordLogin()));
       }
-
     }
-    // else {
-    //   print("App is reopened *****************");
-    //   Navigator.push(context, MaterialPageRoute(builder: (context) => const PasswordLogin()));
-    // }
   }
 
 

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kashwise/View_Models/user_details_provider.dart';
+import 'package:kashwise/Views/sign_in_page.dart';
 import 'package:provider/provider.dart';
 import '../Custom_Widgets/mdot.dart';
 import '../View_Models/login_password_provider.dart';
@@ -176,7 +178,8 @@ class PasswordLogin extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             NumberButton(text: "Sign Out", function: (){
-                              Navigator.pop(context);
+                              Provider.of<UserDetailsProvider>(context, listen: false).signOutGoogleUser();
+                              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const SignInPage()));
                             },
                                 color: Theme.of(context).primaryColor,
                                 style: Theme.of(context).textTheme.bodyLarge!),

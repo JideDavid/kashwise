@@ -156,7 +156,8 @@ class SendPage extends StatelessWidget {
                         Text(
                             context
                                 .watch<UserDetailsProvider>()
-                                .freeTransactionsLeft
+                                .account
+                                .freeTransfers
                                 .toString(),
                             style: Theme.of(context)
                                 .textTheme
@@ -186,7 +187,7 @@ class SendPage extends StatelessWidget {
                           children: [
                             Image.asset(
                               TImages.brandCardIcon,
-                              scale: 8,
+                              scale: 24,
                             ),
                             const SizedBox(
                               width: TSizes.paddingSpaceLg,
@@ -195,7 +196,7 @@ class SendPage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Send to @username',
+                                  'Send to @walletID',
                                   style:
                                       Theme.of(context).textTheme.headlineSmall,
                                 ),
