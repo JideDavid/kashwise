@@ -1,6 +1,3 @@
-
-import 'package:kashwise/Services/firebase_services.dart';
-
 class TValidator {
   static String? validateEmail(String? value, bool emailExists) {
     if (value == null || value.isEmpty) {

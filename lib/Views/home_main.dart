@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
+// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kashwise/Services/my_printer.dart';
-import 'package:kashwise/View_Models/user_details_provider.dart';
+// import 'package:kashwise/View_Models/user_details_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../View_Models/login_password_provider.dart';
@@ -10,7 +10,7 @@ import '../utils/constants/size_config.dart';
 import 'cards.dart';
 import 'home_page.dart';
 import 'more_page.dart';
-import 'password_page.dart';
+// import 'password_page.dart';
 import 'pay_page.dart';
 import 'send_page.dart';
 
