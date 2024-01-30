@@ -314,29 +314,37 @@ class _SignInPageState extends State<SignInPage> {
                                 horizontal: TSizes.paddingSpaceLg
                             ),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text('Don\'t have an account?'),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Text('Don\'t have an account?'),
 
-                                const SizedBox(
-                                  width: TSizes.paddingSpaceLg,
+                                    const SizedBox(
+                                      width: TSizes.paddingSpaceLg,
+                                    ),
+
+                                    GestureDetector(
+                                        onTap: (){
+                                          if(userInitType == UserInitType.login){
+                                            userInitType = UserInitType.signUp;
+                                          }
+                                          else{
+                                            userInitType = UserInitType.login;
+                                          }
+                                          emailController.text ='';
+                                          passwordController.text = '';
+                                          usernameController.text = '';
+                                          confirmPasswordController.text = '';
+                                          setState(() {});
+                                        },
+                                        child: Text('Sign Up', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: TColors.accent),)),
+                                  ],
                                 ),
-
                                 GestureDetector(
-                                    onTap: (){
-                                      if(userInitType == UserInitType.login){
-                                        userInitType = UserInitType.signUp;
-                                      }
-                                      else{
-                                        userInitType = UserInitType.login;
-                                      }
-                                      emailController.text ='';
-                                      passwordController.text = '';
-                                      usernameController.text = '';
-                                      confirmPasswordController.text = '';
-                                      setState(() {});
-                                    },
-                                    child: Text('Sign Up', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: TColors.accent),)),
+                                    onTap: (){},
+                                    child: Text('Forgot password?', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: TColors.accent, fontSize: 12),))
                               ],
                             ),
                           )
