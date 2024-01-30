@@ -1,9 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:kashwise/Custom_Widgets/m_display_picture.dart';
-import 'package:kashwise/Services/firebase_services.dart';
-import 'package:kashwise/Services/my_printer.dart';
+// import 'package:kashwise/Services/firebase_services.dart';
+// import 'package:kashwise/Services/my_printer.dart';
 import 'package:kashwise/View_Models/user_details_provider.dart';
+import 'package:kashwise/Views/sign_in_page.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import '../View_Models/widget_state_provider.dart';
 import '../utils/constants/colors.dart';
@@ -69,7 +71,14 @@ class _HomePageState extends State<HomePage> {
                               ),
                             )
                             : GestureDetector(
-                              onTap: (){},
+                              onTap: (){
+                                PersistentNavBarNavigator.pushNewScreen(
+                                  context,
+                                  screen: const SignInPage(),
+                                  withNavBar: false, // OPTIONAL VALUE. True by default.
+                                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                                );
+                              },
                                 child: MDisplayPic(url: context.watch<UserDetailsProvider>().account.image)),
                             const SizedBox(
                               width: 8,
