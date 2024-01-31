@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:kashwise/Custom_Widgets/m_display_picture.dart';
+import 'package:kashwise/utils/custom_widgets/m_display_picture.dart';
 import 'package:kashwise/Views/sign_in_page.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
-import '../Custom_Widgets/mNavButton.dart';
+import '../utils/custom_widgets/m_nav_button.dart';
 import '../View_Models/user_details_provider.dart';
 import '../View_Models/user_settings_provider.dart';
 import '../utils/constants/colors.dart';

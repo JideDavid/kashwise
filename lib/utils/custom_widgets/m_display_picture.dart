@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import '../utils/constants/size_config.dart';
+import '../constants/size_config.dart';
 
 class MDisplayPic extends StatelessWidget {
   const MDisplayPic({super.key, required this.url});

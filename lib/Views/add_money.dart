@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../Custom_Widgets/mNavButton.dart';
+import '../utils/custom_widgets/m_nav_button.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/sizes.dart';
 import '../utils/constants/text_strings.dart';

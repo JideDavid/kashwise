@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:kashwise/Custom_Widgets/m_display_picture.dart';
+import 'package:kashwise/utils/custom_widgets/m_display_picture.dart';
 // import 'package:kashwise/Services/firebase_services.dart';
 // import 'package:kashwise/Services/my_printer.dart';
 import 'package:kashwise/View_Models/user_details_provider.dart';

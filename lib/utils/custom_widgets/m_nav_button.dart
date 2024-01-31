@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import '../utils/constants/colors.dart';
-import '../utils/constants/sizes.dart';
+import '../constants/colors.dart';
+import '../constants/sizes.dart';
 
 class MNavButton extends StatelessWidget {
-  MNavButton({super.key, required this.function, required this.iconColor,
+  const MNavButton({super.key, required this.function, required this.iconColor,
     required this.icon,required this.title, required this.subTitle, });
 
-  late final Function function;
-  late final Icon icon;
-  late final Color iconColor;
-  late final String title;
-  late final String subTitle;
+  final Function function;
+  final Icon icon;
+  final Color iconColor;
+  final String title;
+  final String subTitle;
 
   @override
   Widget build(BuildContext context) {
