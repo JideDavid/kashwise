@@ -103,57 +103,55 @@ class FirebaseHelper {
 
   Future<bool> checkUsernameExist(String username) async {
     bool nameExists = false;
-    var docs;
 
     ///
     /// Getting users query snapshots from firestore
     try {
       QuerySnapshot snapshot = await firestore.collection('users').get();
-      docs = snapshot.docs;
+      var docs = snapshot.docs;
+
+      if (docs.isEmpty) {
+        MPrint(value: 'No users on db yet');
+        nameExists = false;
+        return nameExists;
+      } else {
+        for (var doc in docs) {
+          if (username == doc['username']) {
+            nameExists = true;
+          }
+        }
+        return nameExists;
+      }
     } catch (e) {
       MPrint(value: '>>>>> error getting users from firestore: $e <<<<<');
       return false;
-    }
-
-    if (docs == null) {
-      MPrint(value: 'No users on db yet');
-      nameExists = false;
-      return nameExists;
-    } else {
-      for (var doc in docs) {
-        if (username == doc['username']) {
-          nameExists = true;
-        }
-      }
-      return nameExists;
     }
   }
 
   Future<bool> checkEmailExist(String email) async {
     bool emailExist = false;
-    var docs;
 
     ///
     /// Getting users query snapshots from firestore
     try {
       QuerySnapshot snapshot = await firestore.collection('users').get();
-      docs = snapshot.docs;
+      var docs = snapshot.docs;
+
+      if (docs.isEmpty) {
+        MPrint(value: 'No users on db yet');
+        emailExist = false;
+        return emailExist;
+      } else {
+        for (var doc in docs) {
+          if (email.toLowerCase() == doc['email'].toString().toLowerCase()) {
+            emailExist = true;
+          }
+        }
+        return emailExist;
+      }
     } catch (e) {
       MPrint(value: '>>>>> error getting users from firestore: $e <<<<<');
       return false;
-    }
-
-    if (docs == null) {
-      MPrint(value: 'No users on db yet');
-      emailExist = false;
-      return emailExist;
-    } else {
-      for (var doc in docs) {
-        if (email.toLowerCase() == doc['email'].toString().toLowerCase()) {
-          emailExist = true;
-        }
-      }
-      return emailExist;
     }
   }
 
@@ -176,14 +174,13 @@ class FirebaseHelper {
 
   Future<String?> getSignInMethod(String email) async {
     bool emailExist = false;
-    var docs;
 
     ///
     /// Getting users query snapshots from firestore
     try {
       QuerySnapshot snapshot = await firestore.collection('users').get();
-      docs = snapshot.docs;
-      if (docs == null) {
+      var docs = snapshot.docs;
+      if (docs.isEmpty) {
         MPrint(value: 'No users on db yet');
         emailExist = false;
         return null;
@@ -296,15 +293,9 @@ class FirebaseHelper {
   /// Check if user in signed in on firestore
   Future<UserDetails?> checkUserSignIn() async {
     try {
-      MPrint(
-          value:
-              ">>>>>>>>>>>>>>>>>>>>>>>> checking user sign in <<<<<<<<<<<<<<<<<<<<<<<<<<<");
 
       User? user = FirebaseAuth.instance.currentUser;
       if (user == null) {
-        MPrint(
-            value:
-                ">>>>>>>>>>>>>>>>>>>>>>>> no user signed in <<<<<<<<<<<<<<<<<<<<<<<<<<<");
         return null;
       } else {
         DocumentSnapshot snapshot = await FirebaseFirestore.instance
@@ -313,14 +304,8 @@ class FirebaseHelper {
             .get();
         if (snapshot.exists) {
           UserDetails account = UserDetails.fromJson(snapshot);
-          MPrint(
-              value:
-                  ">>>>>>>>>>>>>>>>>>>>>>>> a user is signed in <<<<<<<<<<<<<<<<<<<<<<<<<<<");
           return account;
         } else {
-          MPrint(
-              value:
-                  ">>>>>>>>>>>>>>>>>>>>>>>> no user signed in <<<<<<<<<<<<<<<<<<<<<<<<<<<");
           return null;
         }
       }
