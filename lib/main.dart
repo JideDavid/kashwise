@@ -59,6 +59,7 @@ class _MyAppState extends State<MyApp> {
 
   //Checking if a user is already signed in
   Future<bool> userSignedIn() async{
+    // await Future.delayed(const Duration(seconds: 2000));
     User? user = FirebaseAuth.instance.currentUser;
     if(user == null){
       return false;
@@ -73,7 +74,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    // Setting screen size configuration
+    /// Setting screen size configuration
     SizeConfig().init(context);
 
     return MaterialApp(

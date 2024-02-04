@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:kashwise/Views/payment_screens/fund_with%20_paystack.dart';
+import 'package:kashwise/Views/payment_screens/generate_qr_code_page.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../utils/custom_widgets/m_nav_button.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/sizes.dart';
@@ -56,30 +59,45 @@ class AddMoneyPage extends StatelessWidget {
             ///
             /// Buttons
 
-            /// Share
+            /// Share with username
             MNavButton(
-              function: () {},
+              function: () {
+                PersistentNavBarNavigator.pushNewScreen(
+                  context,
+                  screen: const FundWithPaystackPage(),
+                  withNavBar: false, // OPTIONAL VALUE. True by default.
+                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                );
+              },
               iconColor: TColors.pastelVar2,
               icon: const Icon(
-                Icons.alternate_email,
+                Icons.payments_outlined,
                 size: 18,
                 color: TColors.pastelVar2,
               ),
-              title: 'Share @Username',
-              subTitle: 'Receive money from other ${TTexts.appName} users with your Username.',
+              title: 'Paystack',
+              subTitle: 'Fund your wallet using Paystack payment gateway.',
             ),
 
-            /// Share
+            /// Share with qr code
             MNavButton(
-              function: () {},
-              iconColor: TColors.pastelVar2,
+              function: () {
+                PersistentNavBarNavigator.pushNewScreen(
+                  context,
+                  screen: const GenerateQRCodePage(),
+                  withNavBar: false, // OPTIONAL VALUE. True by default.
+                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                );
+              },
+              iconColor: TColors.pastelVar1,
               icon: const Icon(
-                Icons.alternate_email,
+                Icons.qr_code_scanner,
                 size: 18,
-                color: TColors.pastelVar2,
+                color: TColors.pastelVar1,
               ),
-              title: 'Share @Username',
-              subTitle: 'Receive money from other ${TTexts.appName} users with your Username.',
+              title: 'Request payment via QR Code',
+              subTitle:
+                  'Receive money from ${TTexts.appName} users via QR code.',
             ),
           ],
         ),

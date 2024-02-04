@@ -228,7 +228,7 @@ class SpendTabSection extends StatelessWidget {
                           }))
                       .toList(),
                   options: CarouselOptions(
-                      height: SizeConfig.screenHeight * 0.12,
+                      height: SizeConfig.screenHeight * 0.09,
                       viewportFraction: 0.85,
                       enlargeFactor: 0.5)),
             ),

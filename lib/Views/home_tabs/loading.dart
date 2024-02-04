@@ -21,7 +21,7 @@ class _LoadingPageState extends State<LoadingPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(TImages.logoCardVar4, width: SizeConfig.screenWidth * 0.4,),
+              Image.asset(TImages.logoCardVar6, width: SizeConfig.screenWidth * 0.4,),
               const SizedBox(height: TSizes.paddingSpaceLg,),
               const CircularProgressIndicator(
                 strokeWidth: 2,

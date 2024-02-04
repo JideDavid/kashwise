@@ -40,4 +40,19 @@ class UserDetails {
         date: snapshot['date'],
         signInMethod: snapshot['signInMethod']);
   }
+
+  Map<String, dynamic> toJson() => {
+    'uid' : uid,
+    'username' : username,
+    'email': email,
+    'walletTag' : walletTag,
+    'walletBalance': walletBalance,
+    'totalSavings': totalSavings,
+    'totalOwe': totalOwe,
+    'freeTransfers': freeTransfers,
+    'image': image,
+    'date': date,
+    'signInMethod': signInMethod
+  };
+
 }
