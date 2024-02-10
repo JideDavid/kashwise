@@ -85,6 +85,7 @@ class UserDetailsProvider extends ChangeNotifier {
         await FirebaseHelper().refreshUserDetails(account.uid);
     if (userDetails != null) {
       account = userDetails;
+      MPrint( value: account.walletBalance.toString());
       isSignedIn = true;
       loading = false;
       notifyListeners();

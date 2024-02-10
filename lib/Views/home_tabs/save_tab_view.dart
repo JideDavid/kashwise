@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../Services/number_formatter.dart';
 import '../../View_Models/user_details_provider.dart';
 import '../../utils/constants/colors.dart';
 import '../../utils/constants/image_strings.dart';
@@ -64,11 +65,7 @@ class SaveTabSection extends StatelessWidget {
                             color: TColors.pastelVar1,
                           ),
                           Text(
-                            context
-                                .watch<UserDetailsProvider>()
-                                .account
-                                .totalSavings
-                                .toString(),
+                            NumberFormatter().formatAmount(Provider.of<UserDetailsProvider>(context, listen: true).account.totalSavings),
                             style: Theme.of(context)
                                 .textTheme
                                 .headlineLarge

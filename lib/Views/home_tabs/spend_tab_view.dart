@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
+import '../../Services/number_formatter.dart';
 import '../../View_Models/user_details_provider.dart';
 import '../../View_Models/user_settings_provider.dart';
 import '../../utils/constants/colors.dart';
@@ -9,7 +10,7 @@ import '../../utils/constants/image_strings.dart';
 import '../../utils/constants/size_config.dart';
 import '../../utils/constants/sizes.dart';
 import '../add_money.dart';
-import '../transfer.dart';
+import '../payment_screens/transfer.dart';
 
 class SpendTabSection extends StatelessWidget {
   const SpendTabSection({super.key});
@@ -79,8 +80,7 @@ class SpendTabSection extends StatelessWidget {
                                   ?.color,
                             ),
                             Text(
-                              context.watch<UserDetailsProvider>().account.walletBalance
-                                  .toString(),
+                              NumberFormatter().formatAmount(Provider.of<UserDetailsProvider>(context, listen: true).account.walletBalance),
                               style: Theme.of(context)
                                   .textTheme
                                   .headlineLarge,

@@ -36,7 +36,7 @@ class PrefHelper{
     SharedPreferences pref = await SharedPreferences.getInstance();
     bool? val = pref.getBool("isLight");
     if(val == null) {
-      return true;
+      return false;
     }else{
       return val;
     }

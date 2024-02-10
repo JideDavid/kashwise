@@ -40,7 +40,8 @@ class SendPage extends StatelessWidget {
 
                     ///Action button
                     GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                        },
                         child: const Icon(
                           Icons.speaker_notes,
                           color: TColors.accent,

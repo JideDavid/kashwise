@@ -1,9 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:kashwise/Models/pay_request_model.dart';
+import 'package:kashwise/Services/firebase_services.dart';
 import 'package:kashwise/Services/my_printer.dart';
+import 'package:kashwise/Services/number_formatter.dart';
 import 'package:kashwise/Services/qr_scanner.dart';
+import 'package:kashwise/View_Models/user_details_provider.dart';
 import 'package:kashwise/utils/constants/text_strings.dart';
+import 'package:provider/provider.dart';
 import '../../utils/constants/colors.dart';
 import '../../utils/constants/size_config.dart';
 import '../../utils/constants/sizes.dart';
@@ -144,7 +148,7 @@ class _ScanQRPageState extends State<ScanQRPage> {
                                     children: [
                                       const Text('Send'),
                                       Text(
-                                        qrPayRequest!.amount.toString(),
+                                        NumberFormatter().formatAmount(qrPayRequest!.amount),
                                         style: Theme.of(context)
                                             .textTheme
                                             .headlineLarge
@@ -228,6 +232,7 @@ class _ScanQRPageState extends State<ScanQRPage> {
                                                             .walletTag,
                                                         username: qrPayRequest!
                                                             .username,
+                                                        uid: qrPayRequest!.uid,
                                                         amount: inputAmount);
                                                     setState(() {});
                                                   }
@@ -294,7 +299,14 @@ class _ScanQRPageState extends State<ScanQRPage> {
                           Visibility(
                             visible: qrPayRequest!.amount == 0 ? false : true,
                             child: FilledButton(
-                                onPressed: () {},
+                                onPressed: () async{
+                                  bool resp = await FirebaseHelper().transferToAppUser(Provider.of<UserDetailsProvider>(context, listen: false).account.uid , qrPayRequest!.uid, qrPayRequest!.amount);
+                                  if(resp){
+                                    MPrint(value: "Transfer successful");
+                                  }else{
+                                    MPrint(value: "Transfer failed");
+                                  }
+                                },
                                 style: Theme.of(context)
                                     .filledButtonTheme
                                     .style

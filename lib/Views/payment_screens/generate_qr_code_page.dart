@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:kashwise/Models/pay_request_model.dart';
 import 'package:kashwise/Services/my_printer.dart';
+import 'package:kashwise/Services/number_formatter.dart';
 import 'package:kashwise/View_Models/user_details_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -33,6 +34,9 @@ class _GenerateQRCodePageState extends State<GenerateQRCodePage> {
         username: Provider.of<UserDetailsProvider>(context, listen: false)
             .account
             .username,
+        uid: Provider.of<UserDetailsProvider>(context, listen: false)
+            .account
+            .uid,
         amount: 0));
     amount =0;
     qRValue = payReq;
@@ -51,6 +55,9 @@ class _GenerateQRCodePageState extends State<GenerateQRCodePage> {
         username: Provider.of<UserDetailsProvider>(context, listen: false)
             .account
             .username,
+        uid: Provider.of<UserDetailsProvider>(context, listen: false)
+            .account
+            .uid,
         amount: reqAmount));
     amount = reqAmount;
     qRValue = payReq;
@@ -216,7 +223,7 @@ class _GenerateQRCodePageState extends State<GenerateQRCodePage> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       const Text('Request amount:'),
-                                      Text(amount == 0 ? '--' : amount.toString()),
+                                      Text(amount == 0 ? '--' : NumberFormatter().formatAmount(amount)),
                                     ],
                                   ),
                                 ),

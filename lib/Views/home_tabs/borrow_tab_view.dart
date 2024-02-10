@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../Services/number_formatter.dart';
 import '../../View_Models/user_details_provider.dart';
 import '../../utils/constants/colors.dart';
 import '../../utils/constants/image_strings.dart';
@@ -59,11 +60,7 @@ class BorrowTabSection extends StatelessWidget {
                           color: TColors.pastelVar3,
                         ),
                         Text(
-                          context
-                              .watch<UserDetailsProvider>()
-                              .account
-                              .totalOwe
-                              .toString(),
+                          NumberFormatter().formatAmount(Provider.of<UserDetailsProvider>(context, listen: true).account.totalOwe),
                           style: Theme.of(context)
                               .textTheme
                               .headlineLarge

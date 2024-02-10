@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import '../constants/colors.dart';
 import '../constants/size_config.dart';
 
 class MDisplayPic extends StatelessWidget {
@@ -12,9 +13,10 @@ class MDisplayPic extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(100),
-      child: SizedBox(
+      child: Container(
         height: SizeConfig.screenWidth * 0.12,
         width: SizeConfig.screenWidth * 0.12,
+        color: TColors.accent.withOpacity(0.7),
         child: CachedNetworkImage(
           imageUrl: url,
           progressIndicatorBuilder: (context, url, downloadProgress) =>

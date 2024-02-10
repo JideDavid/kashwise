@@ -205,7 +205,7 @@ class FirebaseHelper {
     try {
       firebaseAuth.sendPasswordResetEmail(email: email);
     } catch (e) {
-      MPrint(value: e.toString());
+      MPrint(value: '>>>>>>>> error: ${e.toString()} <<<<<<<<<<<');
     }
     return null;
   }
@@ -293,7 +293,6 @@ class FirebaseHelper {
   /// Check if user in signed in on firestore
   Future<UserDetails?> checkUserSignIn() async {
     try {
-
       User? user = FirebaseAuth.instance.currentUser;
       if (user == null) {
         return null;
@@ -319,5 +318,79 @@ class FirebaseHelper {
     googleSignIn.signOut();
     FirebaseAuth.instance.signOut();
     MPrint(value: ">>>>>>>>>>>>>> google logout <<<<<<<<<<<<<<");
+  }
+
+  /// Transfer to app user
+  Future<bool> transferToAppUser(
+      String userID, String receiverID, double amount) async {
+    /// Debit user
+    bool debitResp = await debitUser(userID, amount);
+    if(debitResp){
+      /// Credit receiver
+      bool creditResp = await creditUser(receiverID, amount);
+      if(creditResp){
+        return true;
+      }else{
+        MPrint(value: "crediting receiver failure");
+        return false;
+      }
+    }else{
+      MPrint(value: "debiting user failure");
+      return false;
+    }
+  }
+
+  Future<bool> debitUser(String userID, double amount) async {
+    try {
+      DocumentSnapshot userData =
+          await firestore.collection("users").doc(userID).get();
+      if (userData.exists) {
+        double initialBal = userData.get('walletBalance');
+        MPrint(value: "initial user wallet balance: $initialBal");
+        if (initialBal < amount) {
+          MPrint(value: ">>>>> Insufficient wallet balance <<<<<");
+          return false;
+        } else {
+          double newBal = initialBal - amount;
+          firestore
+              .collection("users")
+              .doc(userID)
+              .update({'walletBalance': newBal});
+          MPrint(value: "user successfully debited $amount naira");
+          MPrint(value: "new user wallet balance: $newBal");
+          return true;
+        }
+      } else {
+        MPrint(value: ">>>>> Invalid user <<<<<");
+        return false;
+      }
+    } catch (e) {
+      MPrint(value: e.toString());
+      return false;
+    }
+  }
+
+  Future<bool> creditUser(String userID, double amount) async{
+    try{
+      DocumentSnapshot receiverData = await firestore.collection("users").doc(userID).get();
+      if (receiverData.exists) {
+        double initialReceiverWalletBal = receiverData.get("walletBalance");
+        MPrint(value: "initial receiver wallet balance : $initialReceiverWalletBal");
+        double newReceiverWalletBal = initialReceiverWalletBal + amount;
+        firestore
+            .collection("users")
+            .doc(userID)
+            .update({"walletBalance": newReceiverWalletBal});
+        MPrint(value: "receiver successfully credited $amount naira");
+        MPrint(value: "new receiver wallet balance: $newReceiverWalletBal");
+        return true;
+      } else {
+        MPrint(value: "Receiver with ID $userID does not exist");
+        return false;
+      }
+    }catch(e){
+      MPrint(value: e.toString());
+      return false;
+    }
   }
 }

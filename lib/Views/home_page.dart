@@ -1,11 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:kashwise/Services/firebase_services.dart';
 import 'package:kashwise/utils/custom_widgets/m_display_picture.dart';
-// import 'package:kashwise/Services/firebase_services.dart';
-// import 'package:kashwise/Services/my_printer.dart';
 import 'package:kashwise/View_Models/user_details_provider.dart';
-import 'package:kashwise/Views/sign_in_page.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import '../View_Models/widget_state_provider.dart';
 import '../utils/constants/colors.dart';
@@ -54,29 +51,12 @@ class _HomePageState extends State<HomePage> {
                         Row(
                           children: [
                             /// User DP
-                            context.watch<UserDetailsProvider>().loading
-                            ? Container(
-                              height: SizeConfig.screenWidth * 0.12,
-                              width: SizeConfig.screenWidth * 0.12,
-                              decoration: BoxDecoration(
-                                color: Colors.grey.withOpacity(0.4),
-                                borderRadius: BorderRadius.circular(100),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(TSizes.paddingSpaceLg),
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                              ),
-                            )
-                            : GestureDetector(
+                            GestureDetector(
                               onTap: (){
-                                PersistentNavBarNavigator.pushNewScreen(
-                                  context,
-                                  screen: const SignInPage(),
-                                  withNavBar: false, // OPTIONAL VALUE. True by default.
-                                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                                FirebaseHelper().transferToAppUser(
+                                    Provider.of<UserDetailsProvider>(context, listen: false).account.uid,
+                                    "mwEi2DTtAbRboug0XrtonMgKaxr2",
+                                    200
                                 );
                               },
                                 child: MDisplayPic(url: context.watch<UserDetailsProvider>().account.image)),
@@ -85,9 +65,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                             Text(
                               'Hi, ${
-                                  context.watch<UserDetailsProvider>().loading ?
-                                      'User'
-                                  :  context.watch<UserDetailsProvider>().account.username
+                                  context.watch<UserDetailsProvider>().account.username
                               }',
                               style: Theme.of(context).textTheme.headlineSmall,
                             )

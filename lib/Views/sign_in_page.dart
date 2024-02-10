@@ -34,6 +34,7 @@ class _SignInPageState extends State<SignInPage> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController resetPasswordController = TextEditingController();
 
   setLoginButtonActivation(){
     if(emailController.text.isEmpty
@@ -69,8 +70,8 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     double sw = MediaQuery.of(context).size.width;
-    return WillPopScope(
-      onWillPop: ()async{ return false;},
+    return PopScope(
+      canPop: false,
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         body: SafeArea(
@@ -340,7 +341,57 @@ class _SignInPageState extends State<SignInPage> {
                                 ],
                               ),
                               GestureDetector(
-                                  onTap: (){},
+                                  onTap: (){
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            title: const Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                              children: [
+                                                Text('Enter Email'),
+                                              ],
+                                            ),
+                                            content: TextField(
+                                              textAlign: TextAlign.center,
+                                              keyboardType: TextInputType.emailAddress,
+                                              controller: resetPasswordController,
+                                            ),
+                                            actions: [
+                                              FilledButton(
+                                                  onPressed: (){
+                                                    FirebaseHelper().requestChangePassword(resetPasswordController.text);
+                                                  },
+                                                  style: Theme.of(context)
+                                                      .filledButtonTheme
+                                                      .style
+                                                      ?.copyWith(
+                                                      backgroundColor:
+                                                      const MaterialStatePropertyAll(
+                                                          TColors
+                                                              .primary)),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: TSizes
+                                                            .paddingSpaceLg),
+                                                    child: Text(
+                                                      'Confirm',
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyLarge
+                                                          ?.copyWith(
+                                                          color:
+                                                          TColors.white),
+                                                    ),
+                                                  )),
+                                            ],
+                                            actionsAlignment:
+                                            MainAxisAlignment.center,
+                                          );
+                                        });
+                                  },
                                   child: Text('Forgot password?', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: TColors.accent, fontSize: 12),))
                             ],
                           ),
