@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kashwise/View_Models/user_details_provider.dart';
 import 'package:kashwise/Views/sign_in_page.dart';
 import 'package:provider/provider.dart';
-import '../utils/custom_widgets/mdot.dart';
+import '../utils/custom_widgets/m_dot.dart';
 import '../View_Models/login_password_provider.dart';
 import '../utils/constants/size_config.dart';
 import '../utils/custom_widgets/number_button.dart';
@@ -14,8 +14,8 @@ class PasswordLogin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return WillPopScope(
-      onWillPop: ()async { return false; },
+    return PopScope(
+      canPop: false,
       child: Scaffold(
         body: SafeArea(
           child: Padding(

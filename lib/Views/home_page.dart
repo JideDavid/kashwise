@@ -1,6 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:kashwise/Services/firebase_services.dart';
 import 'package:kashwise/utils/custom_widgets/m_display_picture.dart';
 import 'package:kashwise/View_Models/user_details_provider.dart';
 import 'package:provider/provider.dart';
@@ -52,13 +51,7 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             /// User DP
                             GestureDetector(
-                              onTap: (){
-                                FirebaseHelper().transferToAppUser(
-                                    Provider.of<UserDetailsProvider>(context, listen: false).account.uid,
-                                    "mwEi2DTtAbRboug0XrtonMgKaxr2",
-                                    200
-                                );
-                              },
+                              onTap: (){},
                                 child: MDisplayPic(url: context.watch<UserDetailsProvider>().account.image)),
                             const SizedBox(
                               width: 8,

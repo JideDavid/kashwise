@@ -30,7 +30,7 @@ void main() async {
     ChangeNotifierProvider(create: (_) => UserSettingsProvider()),
     ChangeNotifierProvider(create: (_) => LoginPasswordProvider()),
     ChangeNotifierProvider(create: (_) => WidgetStateProvider()),
-    ChangeNotifierProvider(create: (_) => UserDetailsProvider())
+    ChangeNotifierProvider(create: (_) => UserDetailsProvider()),
   ], child: const MyApp()));
 }
 

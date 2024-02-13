@@ -59,7 +59,7 @@ class AddMoneyPage extends StatelessWidget {
             ///
             /// Buttons
 
-            /// Share with username
+            /// Fund wallet with Card or Bank Transfer
             MNavButton(
               function: () {
                 PersistentNavBarNavigator.pushNewScreen(
@@ -75,11 +75,11 @@ class AddMoneyPage extends StatelessWidget {
                 size: 18,
                 color: TColors.pastelVar2,
               ),
-              title: 'Paystack',
+              title: 'Card or Bank Transfer',
               subTitle: 'Fund your wallet using Paystack payment gateway.',
             ),
 
-            /// Share with qr code
+            /// Request payment via QR code
             MNavButton(
               function: () {
                 PersistentNavBarNavigator.pushNewScreen(
@@ -98,6 +98,20 @@ class AddMoneyPage extends StatelessWidget {
               title: 'Request payment via QR Code',
               subTitle:
                   'Receive money from ${TTexts.appName} users via QR code.',
+            ),
+
+            /// Borrow funds
+            MNavButton(
+              function: () {},
+              iconColor: TColors.pastelVar5,
+              icon: const Icon(
+                Icons.money,
+                size: 18,
+                color: TColors.pastelVar5,
+              ),
+              title: 'Borrow funds',
+              subTitle:
+              'Receive money from ${TTexts.appName} users via QR code.',
             ),
           ],
         ),

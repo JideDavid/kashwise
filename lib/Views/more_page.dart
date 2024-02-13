@@ -283,34 +283,6 @@ class _MorePageState extends State<MorePage> {
                       const SizedBox(
                         height: TSizes.paddingSpaceLg * 3,
                       ),
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'CaseStudy :  ',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall
-                                ?.copyWith(fontWeight: FontWeight.normal, fontSize: 6),
-                          ),
-                          Text(
-                            'Kuda App.',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall
-                                ?.copyWith(fontWeight: FontWeight.normal),
-                          ),
-                        ],
-                      ),
-
-                      Text(
-                        "This app was built by Jide Abiola for educational purposes only.",
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            fontWeight: FontWeight.normal, fontSize: 8),
-                      ),
-
-                      const SizedBox(height: TSizes.paddingSpaceLg),
                     ]),
                   ),
                 ],

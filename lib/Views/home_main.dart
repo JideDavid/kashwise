@@ -68,6 +68,7 @@ class _HomeMainState extends State<HomeMain> with WidgetsBindingObserver{
   @override
   Widget build(BuildContext context) {
 
+
     return SafeArea(
       child: Scaffold(
         bottomNavigationBar: PersistentTabView(
@@ -101,7 +102,7 @@ class _HomeMainState extends State<HomeMain> with WidgetsBindingObserver{
             ),
             PersistentBottomNavBarItem(
               icon: const Icon(Icons.widgets),
-              title: ("Home"),
+              title: ("More"),
               activeColorPrimary: Theme.of(context).primaryColor,
               inactiveColorPrimary: CupertinoColors.systemGrey,
             ),

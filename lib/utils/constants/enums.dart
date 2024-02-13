@@ -16,3 +16,5 @@ enum SignInMethod{ google,  email}
 
 enum UserInitType{ login,  signUp}
 
+enum InvestType{ lend,  stock}
+

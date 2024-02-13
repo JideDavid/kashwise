@@ -26,97 +26,121 @@ class SaveTabSection extends StatelessWidget {
               padding: const EdgeInsets.symmetric(
                   horizontal: TSizes.paddingSpaceLg,
                   vertical: TSizes.paddingSpaceSm),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+              child: Container(
+                decoration: BoxDecoration(
+                    color: TColors.pastelVar1,
+                    borderRadius: BorderRadius.circular(20),
+                    image: const DecorationImage(image: AssetImage(TImages.savingsBG, ),opacity: 0.2, fit: BoxFit.fill)
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: TSizes.paddingSpaceLg * 2,
+                      vertical: TSizes.paddingSpaceLg * 2),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ///flag
-                      Image.asset(
-                        TImages.nigerianFlag,
-                        scale: 15,
-                      ),
-                      const SizedBox(
-                        width: TSizes.paddingSpaceMd,
-                      ),
-
-                      ///currency
-                      Text(
-                        'NGN Savings',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge
-                            ?.copyWith(color: TColors.pastelVar1),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: TSizes.paddingSpaceMd,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ///wallet balance
                       Row(
                         children: [
+                          ///flag
                           Image.asset(
-                            TImages.naira,
+                            TImages.nigerianFlag,
                             scale: 15,
-                            color: TColors.pastelVar1,
                           ),
+                          const SizedBox(
+                            width: TSizes.paddingSpaceMd,
+                          ),
+
+                          ///currency
                           Text(
-                            NumberFormatter().formatAmount(Provider.of<UserDetailsProvider>(context, listen: true).account.totalSavings),
+                            'NGN Savings',
                             style: Theme.of(context)
                                 .textTheme
-                                .headlineLarge
-                                ?.copyWith(color: TColors.pastelVar1),
-                          ),
+                                .bodyLarge
+                                ?.copyWith(color: TColors.white),
+                          )
                         ],
                       ),
+                      const SizedBox(
+                        height: TSizes.paddingSpaceMd,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ///wallet balance
+                          Row(
+                            children: [
+                              Image.asset(
+                                TImages.naira,
+                                scale: 15,
+                                color: TColors.white,
+                              ),
+                              Text(
+                                NumberFormatter().formatAmount(Provider.of<UserDetailsProvider>(context, listen: true).account.totalSavings),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineLarge
+                                    ?.copyWith(color: TColors.white),
+                              ),
+                            ],
+                          ),
 
-                      ///wallet action button
-                      const Icon(
-                        Icons.expand_circle_down,
-                        size: 30,
+                          ///wallet action button
+                          const Visibility(
+                            visible: false,
+                            child: Icon(
+                              Icons.expand_circle_down,
+                              size: 30,
+                            ),
+                          )
+                        ],
+                      ),
+                      
+                      // Wallet action buttons
+                      Padding(
+                        padding: const EdgeInsets.only(top: TSizes.paddingSpaceLg),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(50),
+                                child: FilledButton(
+                                  style: Theme.of(context).filledButtonTheme.style!.copyWith(
+                                    backgroundColor: const MaterialStatePropertyAll(TColors.darkerGrey)
+                                  ),
+                                  onPressed: () {},
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: TSizes.paddingSpaceLg),
+                                        child: Icon(
+                                          Icons.add_circle,
+                                          color:
+                                              Theme.of(context).colorScheme.secondary,
+                                        ),
+                                      ),
+                                      Text(
+                                        'Add Pouch',
+                                        style:
+                                            Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                              color: TColors.pastelVar1
+                                            )
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: TSizes.paddingSpaceLg,
+                            ),
+                            Expanded(child: Container()),
+                          ],
+                        ),
                       )
                     ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: TSizes.paddingSpaceLg),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: FilledButton(
-                            style: Theme.of(context).filledButtonTheme.style,
-                            onPressed: () {},
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: TSizes.paddingSpaceLg),
-                                  child: Icon(
-                                    Icons.add_circle,
-                                    color:
-                                        Theme.of(context).colorScheme.secondary,
-                                  ),
-                                ),
-                                Text(
-                                  'Add Pocket',
-                                  style:
-                                      Theme.of(context).textTheme.headlineSmall,
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: TSizes.paddingSpaceLg,
-                        ),
-                        Expanded(child: Container()),
-                      ],
-                    ),
-                  )
-                ],
+                ),
               ),
             ),
 
@@ -136,7 +160,7 @@ class SaveTabSection extends StatelessWidget {
                     children: [
                       const Spacer(),
                       Text(
-                        'Pockets',
+                        'Pouches',
                         style: Theme.of(context).textTheme.headlineLarge,
                       ),
                       const SizedBox(

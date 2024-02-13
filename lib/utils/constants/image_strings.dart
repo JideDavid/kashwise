@@ -20,7 +20,9 @@ class TImages {
   // -- Banners images
   static const String carousel1 = "assets/banners/carousel1.png";
   static const String carousel2 = "assets/banners/carousel2.png";
-  static const String carousel3 = "assets/banners/carousel3.jpeg";
+  static const String carousel3 = "assets/banners/carousel3.png";
+  static const String walletBG = "assets/banners/wallet_bg_pattern.png";
+  static const String savingsBG = "assets/banners/savings_bg_pattern.png";
 
   // -- Card Images
   static const String facebookChart = "assets/icons/facebook_chart.png";

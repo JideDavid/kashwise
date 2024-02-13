@@ -31,154 +31,179 @@ class SpendTabSection extends StatelessWidget {
               padding: const EdgeInsets.symmetric(
                   horizontal: TSizes.paddingSpaceLg,
                   vertical: TSizes.paddingSpaceSm),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: TColors.accent.withOpacity(1),
+                  borderRadius: BorderRadius.circular(20),
+                  image: const DecorationImage(image: AssetImage(TImages.walletBG, ),opacity: 0.2, fit: BoxFit.fill)
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: TSizes.paddingSpaceLg * 2,
+                      vertical: TSizes.paddingSpaceLg * 2),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ///flag
-                      Image.asset(
-                        TImages.nigerianFlag,
-                        scale: 15,
+                      Row(
+                        children: [
+                          ///flag
+                          Image.asset(
+                            TImages.nigerianFlag,
+                            scale: 15,
+                          ),
+                          const SizedBox(
+                            width: TSizes.paddingSpaceMd,
+                          ),
+
+                          ///currency
+                          Text(
+                            'Nigerian Naira',
+                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.black),
+                          )
+                        ],
                       ),
                       const SizedBox(
-                        width: TSizes.paddingSpaceMd,
+                        height: TSizes.paddingSpaceMd,
                       ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
 
-                      ///currency
-                      Text(
-                        'Nigerian Naira',
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: TSizes.paddingSpaceMd,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-
-                      ///wallet balance
-                      GestureDetector(
-                        onTap: (){
-                          context.read<UserSettingsProvider>().changeBalanceVisibility();
-                        },
-                        child: context.watch<UserSettingsProvider>().balIsHidden
-                            ? const Text(
-                          '*****',
-                          style: TextStyle(fontSize: 30),
-                        )
-                            : Row(
-                          children: [
-                            Image.asset(
-                              TImages.naira,
-                              scale: 18,
-                              color: Theme.of(context)
-                                  .textTheme
-                                  .headlineSmall
-                                  ?.color,
+                          ///wallet balance
+                          GestureDetector(
+                            onTap: (){
+                              context.read<UserSettingsProvider>().changeBalanceVisibility();
+                            },
+                            child: context.watch<UserSettingsProvider>().balIsHidden
+                                ? const Text(
+                              '*****',
+                              style: TextStyle(fontSize: 30, color: Colors.black),
+                            )
+                                : Row(
+                              children: [
+                                Image.asset(
+                                  TImages.naira,
+                                  scale: 18,
+                                  // color: Theme.of(context)
+                                  //     .textTheme
+                                  //     .headlineSmall
+                                  //     ?.color,
+                                  color: Colors.black,
+                                ),
+                                Text(
+                                  NumberFormatter().formatAmount(Provider.of<UserDetailsProvider>(context, listen: true).account.walletBalance),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineLarge!.copyWith(color: Colors.black),
+                                ),
+                              ],
                             ),
-                            Text(
-                              NumberFormatter().formatAmount(Provider.of<UserDetailsProvider>(context, listen: true).account.walletBalance),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineLarge,
+                          ),
+
+                          ///wallet action button
+                          const Visibility(
+                            visible: false,
+                            child: Icon(
+                              Icons.menu,
+                              size: 30,
+                            ),
+                          )
+                        ],
+                      ),
+                      Text('Pull down to refresh balance',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall!
+                              .copyWith(color: TColors.black,fontWeight: FontWeight.w400)),
+                      Padding(
+                        padding: const EdgeInsets.only(top: TSizes.paddingSpaceLg),
+                        child: Row(
+                          children: [
+                            
+                            /// Transfer Button
+                            Expanded(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(50),
+                                child: FilledButton(
+                                  style: Theme.of(context).filledButtonTheme.style!.copyWith(
+                                    backgroundColor: const MaterialStatePropertyAll(TColors.darkerGrey)
+                                  ),
+                                  onPressed: () {
+                                    PersistentNavBarNavigator.pushNewScreen(
+                                      context,
+                                      screen: const TransferPage(),
+                                      withNavBar: false, // OPTIONAL VALUE. True by default.
+                                      pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                                    );
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: TSizes.paddingSpaceLg),
+                                        child: Icon(
+                                          Icons.send,
+                                          color:
+                                              Theme.of(context).colorScheme.secondary,
+                                        ),
+                                      ),
+                                      Text(
+                                        'Transfer',
+                                        style:
+                                            Theme.of(context).textTheme.headlineSmall!.copyWith(color: TColors.accent),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: TSizes.paddingSpaceLg,
+                            ),
+
+                            /// Add Money Button
+                            Expanded(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(50),
+                                child: FilledButton(
+                                  style: Theme.of(context).filledButtonTheme.style!.copyWith(
+                                      backgroundColor: const MaterialStatePropertyAll(TColors.darkerGrey)
+                                  ),
+                                  onPressed: () {
+                                    PersistentNavBarNavigator.pushNewScreen(
+                                      context,
+                                      screen: const AddMoneyPage(),
+                                      withNavBar: false, // OPTIONAL VALUE. True by default.
+                                      pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                                    );
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: TSizes.paddingSpaceLg),
+                                        child: Icon(
+                                          Icons.payments,
+                                          color:
+                                              Theme.of(context).colorScheme.secondary,
+                                        ),
+                                      ),
+                                      Text(
+                                        'Add Money',
+                                        style:
+                                            Theme.of(context).textTheme.headlineSmall!.copyWith(color: TColors.accent),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
                             ),
                           ],
                         ),
-                      ),
-
-
-
-                      ///wallet action button
-                      const Icon(
-                        Icons.expand_circle_down,
-                        size: 30,
                       )
                     ],
                   ),
-                  Text('Pull down to refresh balance',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall!
-                          .copyWith(color: TColors.darkGrey)),
-                  Padding(
-                    padding: const EdgeInsets.only(top: TSizes.paddingSpaceLg),
-                    child: Row(
-                      children: [
-                        /// Transfer Button
-                        Expanded(
-                          child: FilledButton(
-                            style: Theme.of(context).filledButtonTheme.style,
-                            onPressed: () {
-                              PersistentNavBarNavigator.pushNewScreen(
-                                context,
-                                screen: const TransferPage(),
-                                withNavBar: false, // OPTIONAL VALUE. True by default.
-                                pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                              );
-                            },
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: TSizes.paddingSpaceLg),
-                                  child: Icon(
-                                    Icons.expand_circle_down,
-                                    color:
-                                        Theme.of(context).colorScheme.secondary,
-                                  ),
-                                ),
-                                Text(
-                                  'Transfer',
-                                  style:
-                                      Theme.of(context).textTheme.headlineSmall,
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: TSizes.paddingSpaceLg,
-                        ),
-
-                        /// Add Money Button
-                        Expanded(
-                          child: FilledButton(
-                            style: Theme.of(context).filledButtonTheme.style,
-                            onPressed: () {
-                              PersistentNavBarNavigator.pushNewScreen(
-                                context,
-                                screen: const AddMoneyPage(),
-                                withNavBar: false, // OPTIONAL VALUE. True by default.
-                                pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                              );
-                            },
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: TSizes.paddingSpaceLg),
-                                  child: Icon(
-                                    Icons.payments,
-                                    color:
-                                        Theme.of(context).colorScheme.secondary,
-                                  ),
-                                ),
-                                Text(
-                                  'Add Money',
-                                  style:
-                                      Theme.of(context).textTheme.headlineSmall,
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
+                ),
               ),
             ),
 
@@ -245,7 +270,7 @@ class SpendTabSection extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Quick Access',
+                        'Quick Action',
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                       Text('Edit',

@@ -441,7 +441,7 @@ class _SignInPageState extends State<SignInPage> {
                               onPressed: activeLoginButton ? () async{
                                 if(_loginFormKey.currentState!.validate()){
                                   bool isSignedIn = await Provider.of<UserDetailsProvider>(context, listen: false).loginWithEmailAndPassword(
-                                      emailController.text.trim(), passwordController.text.trim());
+                                      context, emailController.text.trim(), passwordController.text.trim());
                                   if(isSignedIn){
                                     //ignore: use_build_context_synchronously
                                     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeMain()));

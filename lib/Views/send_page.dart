@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kashwise/Views/payment_screens/scan_qr_page.dart';
+import 'package:kashwise/Views/payment_screens/transfer.dart';
 import 'package:kashwise/utils/custom_widgets/m_nav_button.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
@@ -184,7 +185,14 @@ class SendPage extends StatelessWidget {
                           ?.copyWith(
                               backgroundColor: MaterialStatePropertyAll(
                                   Colors.grey.withOpacity(0))),
-                      onPressed: () {},
+                      onPressed: () {
+                        PersistentNavBarNavigator.pushNewScreen(
+                          context,
+                          screen: const TransferPage(),
+                          withNavBar: false, // OPTIONAL VALUE. True by default.
+                          pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                        );
+                      },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: TSizes.paddingSpaceLg),

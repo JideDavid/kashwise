@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kashwise/Services/my_printer.dart';
+import 'package:kashwise/utils/constants/text_strings.dart';
+import 'package:kashwise/utils/custom_widgets/m_error_dialog.dart';
 import 'package:nonce/nonce.dart';
-
 import '../Models/user_model.dart';
 import '../utils/constants/image_strings.dart';
 
@@ -155,19 +157,38 @@ class FirebaseHelper {
     }
   }
 
-  Future<UserDetails?> loginWithEmailAndPassword(
-      String email, String password) async {
+  Future<UserDetails?> loginWithEmailAndPassword(BuildContext context, String email, String password) async {
     try {
-      UserCredential userCredential = await firebaseAuth
-          .signInWithEmailAndPassword(email: email, password: password);
-      DocumentSnapshot snapshot = await firestore
-          .collection('users')
-          .doc(userCredential.user!.uid)
-          .get();
-      UserDetails account = UserDetails.fromJson(snapshot);
-      return account;
+
+      String? signInMethod = await getSignInMethod(email);
+      if(signInMethod == null ){
+        //ignore: use_build_context_synchronously
+        MFeedback(context: context).error("This account does not exist on ${TTexts.appName}");
+        return null;
+      }else if(signInMethod == "google"){
+        //ignore: use_build_context_synchronously
+        MFeedback(context: context).error("Account was created with a different sign in method");
+        return null;
+      }else{
+        UserCredential userCredential = await firebaseAuth
+            .signInWithEmailAndPassword(email: email, password: password);
+        DocumentSnapshot snapshot = await firestore
+            .collection('users')
+            .doc(userCredential.user!.uid)
+            .get();
+        UserDetails account = UserDetails.fromJson(snapshot);
+        return account;
+      }
     } catch (e) {
       MPrint(value: e.toString());
+      //ignore: use_build_context_synchronously
+      if(e.toString() == "[firebase_auth/invalid-credential] The supplied auth credential is incorrect, malformed or has expired."){
+        //ignore: use_build_context_synchronously
+        MFeedback(context: context).error("Email or password is incorrect");
+      }else{
+        //ignore: use_build_context_synchronously
+        MFeedback(context: context).error(e.toString());
+      }
       return null;
     }
   }
@@ -211,7 +232,7 @@ class FirebaseHelper {
   }
 
   Future<UserDetails?> createUserWithEmailAndPassword(
-      String email, String password, String username) async {
+      String email, String password, String username,) async {
     try {
       UserCredential userCredential = await firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password);
@@ -321,13 +342,13 @@ class FirebaseHelper {
   }
 
   /// Transfer to app user
-  Future<bool> transferToAppUser(
-      String userID, String receiverID, double amount) async {
+  Future<bool> transferToAppUser(BuildContext context, String userID, String receiverID, double amount) async {
     /// Debit user
-    bool debitResp = await debitUser(userID, amount);
+    bool debitResp = await debitUser(context, userID, amount);
     if(debitResp){
       /// Credit receiver
-      bool creditResp = await creditUser(receiverID, amount);
+      //ignore: use_build_context_synchronously
+      bool creditResp = await creditUser(context, receiverID, amount);
       if(creditResp){
         return true;
       }else{
@@ -340,7 +361,7 @@ class FirebaseHelper {
     }
   }
 
-  Future<bool> debitUser(String userID, double amount) async {
+  Future<bool> debitUser(BuildContext context, String userID, double amount) async {
     try {
       DocumentSnapshot userData =
           await firestore.collection("users").doc(userID).get();
@@ -349,6 +370,8 @@ class FirebaseHelper {
         MPrint(value: "initial user wallet balance: $initialBal");
         if (initialBal < amount) {
           MPrint(value: ">>>>> Insufficient wallet balance <<<<<");
+          //ignore: use_build_context_synchronously
+          MFeedback(context: context).error("Insufficient wallet balance");
           return false;
         } else {
           double newBal = initialBal - amount;
@@ -362,15 +385,19 @@ class FirebaseHelper {
         }
       } else {
         MPrint(value: ">>>>> Invalid user <<<<<");
+        //ignore: use_build_context_synchronously
+        MFeedback(context: context).error(" Invalid user");
         return false;
       }
     } catch (e) {
       MPrint(value: e.toString());
+      //ignore: use_build_context_synchronously
+      MFeedback(context: context).error(e.toString());
       return false;
     }
   }
 
-  Future<bool> creditUser(String userID, double amount) async{
+  Future<bool> creditUser(BuildContext context, String userID, double amount) async{
     try{
       DocumentSnapshot receiverData = await firestore.collection("users").doc(userID).get();
       if (receiverData.exists) {
@@ -386,10 +413,14 @@ class FirebaseHelper {
         return true;
       } else {
         MPrint(value: "Receiver with ID $userID does not exist");
+        //ignore: use_build_context_synchronously
+        MFeedback(context: context).error("Receiver with ID $userID does not exist");
         return false;
       }
     }catch(e){
       MPrint(value: e.toString());
+      //ignore: use_build_context_synchronously
+      MFeedback(context: context).error(e.toString());
       return false;
     }
   }

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:kashwise/Models/user_model.dart';
 import 'package:kashwise/Services/firebase_services.dart';
@@ -56,12 +57,12 @@ class UserDetailsProvider extends ChangeNotifier {
   }
 
   /// Login with email and password
-  Future<bool> loginWithEmailAndPassword(String email, String password) async {
+  Future<bool> loginWithEmailAndPassword(BuildContext context, String email, String password) async {
     loading = true;
     notifyListeners();
 
     UserDetails? userData =
-        await FirebaseHelper().loginWithEmailAndPassword(email, password);
+        await FirebaseHelper().loginWithEmailAndPassword(context, email, password);
     if (userData == null) {
       loading = false;
       isSignedIn = false;
