@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kashwise/Views/borrow_and_invest/borrow_p2p.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import '../../Services/number_formatter.dart';
 import '../../View_Models/user_details_provider.dart';
@@ -18,7 +20,7 @@ class BorrowTabSection extends StatelessWidget {
           /// Borrow section
           Padding(
             padding: const EdgeInsets.symmetric(
-                horizontal: TSizes.paddingSpaceLg,
+                horizontal: TSizes.paddingSpaceXl,
                 vertical: TSizes.paddingSpaceSm),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,12 +81,24 @@ class BorrowTabSection extends StatelessWidget {
               ],
             ),
           ),
+
+          ///
+          /// Owe Categories
+
+          /// P2P
           Padding(
               padding: const EdgeInsets.symmetric(
-                  horizontal: TSizes.paddingSpaceLg,
+                  horizontal: TSizes.paddingSpaceXl,
                   vertical: TSizes.paddingSpaceSm),
               child: FilledButton(
-                onPressed: (){},
+                onPressed: (){
+                  PersistentNavBarNavigator.pushNewScreen(
+                    context,
+                    screen: const BorrowP2P(),
+                    withNavBar: false, // OPTIONAL VALUE. True by default.
+                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                  );
+                },
                 style: Theme.of(context).filledButtonTheme.style?.copyWith(
                   maximumSize: (MaterialStatePropertyAll(Size(
                     SizeConfig.screenWidth,
@@ -97,17 +111,17 @@ class BorrowTabSection extends StatelessWidget {
                       width: SizeConfig.screenWidth * 0.7,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: TSizes.paddingSpaceLg * 2
+                          horizontal: TSizes.paddingSpaceLg
                         ),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Overdraft', style: Theme.of(context).textTheme.headlineSmall,),
+                            Text('P2P', style: Theme.of(context).textTheme.headlineSmall,),
                             Column(
                               children: [
-                                Text('Spend when your account balance is low and repay whenever you get paid', style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 10),
+                                Text('Find users who are willing to lend you funds with interest', style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 10),
                                 ),
                               ],
                             )
@@ -119,9 +133,11 @@ class BorrowTabSection extends StatelessWidget {
                   ],
                 ),
               )),
+
+          /// Business
           Padding(
               padding: const EdgeInsets.symmetric(
-                  horizontal: TSizes.paddingSpaceLg,
+                  horizontal: TSizes.paddingSpaceXl,
                   vertical: TSizes.paddingSpaceSm),
               child: FilledButton(
                 onPressed: (){},
@@ -137,17 +153,17 @@ class BorrowTabSection extends StatelessWidget {
                       width: SizeConfig.screenWidth * 0.7,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: TSizes.paddingSpaceLg * 2
+                          horizontal: TSizes.paddingSpaceLg
                         ),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Salary Loan', style: Theme.of(context).textTheme.headlineSmall,),
+                            Text('Business', style: Theme.of(context).textTheme.headlineSmall,),
                             Column(
                               children: [
-                                Text('Get a salary based loan at an affordable interest rate', style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 10),
+                                Text('Register your business for user to invest', style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 10),
                                 ),
                               ],
                             )

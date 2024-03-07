@@ -110,28 +110,8 @@ class _FundWithPaystackPageState extends State<FundWithPaystackPage> {
               .uid)
           .update({'walletBalance': walletBalance});
 
-      //recording transaction in history
-      await FirebaseFirestore.instance
-          .collection('users')
-          //ignore: use_build_context_synchronously
-          .doc(Provider.of<UserDetailsProvider>(context, listen: false)
-              .account
-              .uid)
-          .collection('transactions')
-          .doc(transactionRef)
-          .set({
-        'type': 'wallet funding',
-        'isCredit': true,
-        'amount': amount,
-        'method': 'card',
-        'date': DateTime.now(),
-        'transactionRef': transactionRef,
-        'initialBalance': initialBalance,
-        'newBalance': newBalance
-      });
-
       // ignore: use_build_context_synchronously
-      //Navigator.of(context).pop();
+      Navigator.of(context).pop();
     }
   }
 
@@ -198,7 +178,7 @@ class _FundWithPaystackPageState extends State<FundWithPaystackPage> {
                       vertical: TSizes.paddingSpaceLg
                   ),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       /// Amount text field
                       TextField(
@@ -223,6 +203,8 @@ class _FundWithPaystackPageState extends State<FundWithPaystackPage> {
                           hintText: 'Enter Amount',
                         ),
                       ),
+
+                      const SizedBox(height: TSizes.paddingSpaceLg * 3,),
 
                       /// Fund wallet button
                       FilledButton(

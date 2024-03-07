@@ -54,7 +54,7 @@ class _ScanQRPageState extends State<ScanQRPage> {
         scanValue = scannedCode;
         qrIsValid = qrPayRequest!.isValid;
       } catch (e) {
-        MPrint(value: e.toString());
+        MPrint(e.toString());
         scanValue = '!..scan a ${TTexts.appName} user QR code!';
       }
       setState(() {});
@@ -229,9 +229,7 @@ class _ScanQRPageState extends State<ScanQRPage> {
                                                             amountController
                                                                 .text);
                                                     if (inputAmount == null) {
-                                                      MPrint(
-                                                          value:
-                                                              'Input amount is not valid');
+                                                      MPrint('Input amount is not valid');
                                                     } else {
                                                       /// If valid, generate new QR including amount
                                                       qrPayRequest = QRPayRequest(
@@ -316,7 +314,7 @@ class _ScanQRPageState extends State<ScanQRPage> {
                                     });
                                     bool resp = await FirebaseHelper().transferToAppUser(context, Provider.of<UserDetailsProvider>(context, listen: false).account.uid , qrPayRequest!.uid, qrPayRequest!.amount);
                                     if(resp){
-                                      MPrint(value: "Transfer successful");
+                                      MPrint("Transfer successful");
                                       if(mounted){
                                         setState(() {
                                           loadingOverlay = false;
@@ -324,7 +322,7 @@ class _ScanQRPageState extends State<ScanQRPage> {
                                         });
                                       }
                                     }else{
-                                      MPrint(value: "Transfer failed");
+                                      MPrint("Transfer failed");
                                       setState(() {
                                         loadingOverlay = false;
                                       });

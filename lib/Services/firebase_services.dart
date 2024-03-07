@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:kashwise/Models/all_transactions_model.dart';
+import 'package:kashwise/Models/transaction_model.dart';
 import 'package:kashwise/Services/my_printer.dart';
 import 'package:kashwise/utils/constants/text_strings.dart';
 import 'package:kashwise/utils/custom_widgets/m_error_dialog.dart';
@@ -15,37 +17,34 @@ class FirebaseHelper {
   GoogleSignIn googleSignIn = GoogleSignIn();
 
   /// Sign in with google
-  Future<UserDetails?> signInWithGoogle() async {
+  Future<UserDetails?> signInWithGoogle(BuildContext context) async {
     //getting a google user from selection
     GoogleSignInAccount? googleUser = await googleSignIn.signIn();
 
     //return if no user is selected
     if (googleUser == null) {
-      MPrint(value: ">>>>>>>>>>>>>> No google user selected <<<<<<<<<<<<<<");
-      MPrint(value: 'no user selected');
+      MPrint(">>>>>>>>>>>>>> No google user selected <<<<<<<<<<<<<<");
+      MPrint('no user selected');
       return null;
     } else {
       /// checking if user with email already exist with another signIn method
       String? signedInMethod = await getSignInMethod(googleUser.email);
-      if (signedInMethod == 'google' || signedInMethod == 'null') {
+      MPrint('>>>>>>>>>>>signIn Method: $signedInMethod<<<<<<<<<<<<<');
+      if (signedInMethod == 'google' || signedInMethod == null) {
         ///getting google sign in authentication for selected account
         final googleAuth = await googleUser.authentication;
-        MPrint(value: ">>>>>>>>>>>>> Google user selected <<<<<<<<<<<<<<<");
+        MPrint(">>>>>>>>>>>>> Google user selected <<<<<<<<<<<<<<<");
 
         ///drawing credential from googleAuthProvider with firebase
-        final credential = GoogleAuthProvider.credential(
-            accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
+        final credential =
+            GoogleAuthProvider.credential(accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
 
         try {
-          UserCredential userCredential =
-              await FirebaseAuth.instance.signInWithCredential(credential);
-          MPrint(value: userCredential.user!.email.toString());
+          UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+          MPrint(userCredential.user!.email.toString());
 
           ///checking if user previously exist on firebase
-          DocumentSnapshot userData = await firestore
-              .collection('users')
-              .doc(userCredential.user!.uid)
-              .get();
+          DocumentSnapshot userData = await firestore.collection('users').doc(userCredential.user!.uid).get();
 
           if (userData.exists) {
             UserDetails userDetails = UserDetails.fromJson(userData);
@@ -55,22 +54,18 @@ class FirebaseHelper {
           //else create an account for user on firebase
           else {
             //generating wallet tag using the combination of username and generated seven alphanumeric keys
-            var username =
-                (userCredential.user!.displayName)?.replaceAll(' ', '');
-            var walletTag = "$username${Nonce.generate(7)}";
+            var username = (userCredential.user!.displayName)?.replaceAll(' ', '');
+            var walletID = "$username${Nonce.generate(7)}";
 
             try {
               ///saving user credential in firestore
-              await firestore
-                  .collection('users')
-                  .doc(userCredential.user!.uid)
-                  .set({
+              await firestore.collection('users').doc(userCredential.user!.uid).set({
                 'email': userCredential.user!.email,
                 'username': username,
                 'image': userCredential.user!.photoURL,
                 'uid': userCredential.user!.uid,
                 'date': DateTime.now(),
-                'walletTag': walletTag,
+                'walletID': walletID,
                 'walletBalance': 0.0,
                 'totalSavings': 0.0,
                 'totalOwe': 0.0,
@@ -79,24 +74,23 @@ class FirebaseHelper {
               });
 
               ///getting user detail from firebase
-              DocumentSnapshot userData = await firestore
-                  .collection('users')
-                  .doc(userCredential.user!.uid)
-                  .get();
+              DocumentSnapshot userData = await firestore.collection('users').doc(userCredential.user!.uid).get();
 
               UserDetails userDetails = UserDetails.fromJson(userData);
               return userDetails;
             } catch (e) {
-              MPrint(value: e.toString());
+              MPrint(e.toString());
               return null;
             }
           }
         } catch (e) {
-          MPrint(value: e.toString());
+          MPrint(e.toString());
           return null;
         }
       } else {
-        MPrint(value: 'User signed up with a different method');
+        // ignore: use_build_context_synchronously
+        MFeedback(context: context).error('User signed up with a different method');
+        MPrint('User signed up with a different method');
         signOutGoogleUser();
         return null;
       }
@@ -113,7 +107,7 @@ class FirebaseHelper {
       var docs = snapshot.docs;
 
       if (docs.isEmpty) {
-        MPrint(value: 'No users on db yet');
+        MPrint('No users on db yet');
         nameExists = false;
         return nameExists;
       } else {
@@ -125,7 +119,7 @@ class FirebaseHelper {
         return nameExists;
       }
     } catch (e) {
-      MPrint(value: '>>>>> error getting users from firestore: $e <<<<<');
+      MPrint('>>>>> error getting users from firestore: $e <<<<<');
       return false;
     }
   }
@@ -140,7 +134,7 @@ class FirebaseHelper {
       var docs = snapshot.docs;
 
       if (docs.isEmpty) {
-        MPrint(value: 'No users on db yet');
+        MPrint('No users on db yet');
         emailExist = false;
         return emailExist;
       } else {
@@ -152,40 +146,36 @@ class FirebaseHelper {
         return emailExist;
       }
     } catch (e) {
-      MPrint(value: '>>>>> error getting users from firestore: $e <<<<<');
+      MPrint('>>>>> error getting users from firestore: $e <<<<<');
       return false;
     }
   }
 
   Future<UserDetails?> loginWithEmailAndPassword(BuildContext context, String email, String password) async {
     try {
-
       String? signInMethod = await getSignInMethod(email);
-      if(signInMethod == null ){
+      if (signInMethod == null) {
         //ignore: use_build_context_synchronously
         MFeedback(context: context).error("This account does not exist on ${TTexts.appName}");
         return null;
-      }else if(signInMethod == "google"){
+      } else if (signInMethod == "google") {
         //ignore: use_build_context_synchronously
         MFeedback(context: context).error("Account was created with a different sign in method");
         return null;
-      }else{
-        UserCredential userCredential = await firebaseAuth
-            .signInWithEmailAndPassword(email: email, password: password);
-        DocumentSnapshot snapshot = await firestore
-            .collection('users')
-            .doc(userCredential.user!.uid)
-            .get();
+      } else {
+        UserCredential userCredential = await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+        DocumentSnapshot snapshot = await firestore.collection('users').doc(userCredential.user!.uid).get();
         UserDetails account = UserDetails.fromJson(snapshot);
         return account;
       }
     } catch (e) {
-      MPrint(value: e.toString());
+      MPrint(e.toString());
       //ignore: use_build_context_synchronously
-      if(e.toString() == "[firebase_auth/invalid-credential] The supplied auth credential is incorrect, malformed or has expired."){
+      if (e.toString() ==
+          "[firebase_auth/invalid-credential] The supplied auth credential is incorrect, malformed or has expired.") {
         //ignore: use_build_context_synchronously
         MFeedback(context: context).error("Email or password is incorrect");
-      }else{
+      } else {
         //ignore: use_build_context_synchronously
         MFeedback(context: context).error(e.toString());
       }
@@ -202,7 +192,7 @@ class FirebaseHelper {
       QuerySnapshot snapshot = await firestore.collection('users').get();
       var docs = snapshot.docs;
       if (docs.isEmpty) {
-        MPrint(value: 'No users on db yet');
+        MPrint('No users on db yet');
         emailExist = false;
         return null;
       } else {
@@ -216,36 +206,51 @@ class FirebaseHelper {
         }
       }
     } catch (e) {
-      MPrint(value: e.toString());
+      MPrint(e.toString());
       return null;
     }
     return null;
   }
 
-  Future<String?> requestChangePassword(String email) async {
+  Future<bool?> requestChangePassword(BuildContext context, String email) async {
     try {
-      firebaseAuth.sendPasswordResetEmail(email: email);
+      String? signInMethod = await getSignInMethod(email);
+      if (signInMethod == null) {
+        // ignore: use_build_context_synchronously
+        MFeedback(context: context).error('Account does not exist');
+        return false;
+      } else if (signInMethod == 'email') {
+        await firebaseAuth.sendPasswordResetEmail(email: email);
+        // ignore: use_build_context_synchronously
+        MFeedback(context: context).error('Password reset code sent to your email successfully');
+        return true;
+      } else {
+        // ignore: use_build_context_synchronously
+        MFeedback(context: context).error('Account was created using google Sign In method');
+        return false;
+      }
     } catch (e) {
-      MPrint(value: '>>>>>>>> error: ${e.toString()} <<<<<<<<<<<');
+      MPrint('>>>>>>>> error: ${e.toString()} <<<<<<<<<<<');
+      return null;
     }
-    return null;
   }
 
   Future<UserDetails?> createUserWithEmailAndPassword(
-      String email, String password, String username,) async {
+    String email,
+    String password,
+    String username,
+  ) async {
     try {
-      UserCredential userCredential = await firebaseAuth
-          .createUserWithEmailAndPassword(email: email, password: password);
+      UserCredential userCredential =
+          await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
 
       ///checking if user previously exist on firebase
-      DocumentSnapshot userData = await firestore
-          .collection('users')
-          .doc(userCredential.user!.uid)
-          .get();
+      DocumentSnapshot userData = await firestore.collection('users').doc(userCredential.user!.uid).get();
 
       ///login user in if user exists
       if (userData.exists) {
         UserDetails userDetails = UserDetails.fromJson(userData);
+        MPrint("user ${userDetails.email} already exist on ${TTexts.appName}");
         return userDetails;
       }
 
@@ -253,20 +258,17 @@ class FirebaseHelper {
       else {
         ///generating wallet tag using the combination of username and generated seven alphanumeric keys
         var tempUsername = (username).replaceAll(' ', '');
-        var walletTag = "$tempUsername${Nonce.generate(7)}";
+        var walletID = "$tempUsername${Nonce.generate(7)}";
 
         try {
           //saving user credential in firestore
-          await firestore
-              .collection('users')
-              .doc(userCredential.user!.uid)
-              .set({
+          await firestore.collection('users').doc(userCredential.user!.uid).set({
             'email': userCredential.user!.email,
             'username': username,
             'image': TImages.defaultAvatar,
             'uid': userCredential.user!.uid,
             'date': DateTime.now(),
-            'walletTag': walletTag,
+            'walletID': walletID,
             'walletBalance': 0.0,
             'totalSavings': 0.0,
             'totalOwe': 0.0,
@@ -275,38 +277,34 @@ class FirebaseHelper {
           });
 
           //getting user detail from firebase
-          DocumentSnapshot userData = await firestore
-              .collection('users')
-              .doc(userCredential.user!.uid)
-              .get();
+          DocumentSnapshot userData = await firestore.collection('users').doc(userCredential.user!.uid).get();
 
           UserDetails account = UserDetails.fromJson(userData);
 
           return account;
         } catch (e) {
-          MPrint(value: e.toString());
+          MPrint(e.toString());
           return null;
         }
       }
     } catch (e) {
-      MPrint(value: e.toString());
+      MPrint(e.toString());
       return null;
     }
   }
 
   Future<UserDetails?> refreshUserDetails(String uid) async {
     try {
-      DocumentSnapshot snapshot =
-          await FirebaseFirestore.instance.collection("users").doc(uid).get();
+      DocumentSnapshot snapshot = await FirebaseFirestore.instance.collection("users").doc(uid).get();
       if (snapshot.exists) {
         UserDetails account = UserDetails.fromJson(snapshot);
         return account;
       } else {
-        MPrint(value: "User with id: $uid does not exists on the database");
+        MPrint("User with id: $uid does not exists on the database");
         return null;
       }
     } catch (e) {
-      MPrint(value: e.toString());
+      MPrint(e.toString());
       return null;
     }
   }
@@ -318,10 +316,7 @@ class FirebaseHelper {
       if (user == null) {
         return null;
       } else {
-        DocumentSnapshot snapshot = await FirebaseFirestore.instance
-            .collection("users")
-            .doc(user.uid)
-            .get();
+        DocumentSnapshot snapshot = await FirebaseFirestore.instance.collection("users").doc(user.uid).get();
         if (snapshot.exists) {
           UserDetails account = UserDetails.fromJson(snapshot);
           return account;
@@ -330,7 +325,7 @@ class FirebaseHelper {
         }
       }
     } catch (e) {
-      MPrint(value: e.toString());
+      MPrint(e.toString());
       return null;
     }
   }
@@ -338,90 +333,184 @@ class FirebaseHelper {
   signOutGoogleUser() {
     googleSignIn.signOut();
     FirebaseAuth.instance.signOut();
-    MPrint(value: ">>>>>>>>>>>>>> google logout <<<<<<<<<<<<<<");
+    MPrint(">>>>>>>>>>>>>> google logout <<<<<<<<<<<<<<");
   }
 
   /// Transfer to app user
-  Future<bool> transferToAppUser(BuildContext context, String userID, String receiverID, double amount) async {
-    /// Debit user
-    bool debitResp = await debitUser(context, userID, amount);
-    if(debitResp){
-      /// Credit receiver
-      //ignore: use_build_context_synchronously
-      bool creditResp = await creditUser(context, receiverID, amount);
-      if(creditResp){
-        return true;
-      }else{
-        MPrint(value: "crediting receiver failure");
-        return false;
-      }
-    }else{
-      MPrint(value: "debiting user failure");
-      return false;
-    }
-  }
+  Future<bool> transferToAppUser(BuildContext context, String senderID, String receiverID, double amount) async {
+    String transactionMethod = "walletTransfers";
+    /// Date and time
+    DateTime date = DateTime.now();
 
-  Future<bool> debitUser(BuildContext context, String userID, double amount) async {
+    /// Generate a transaction ID
+    String transactionID = "Ref${Nonce(15)}";
+
+    /// Sender account
+    DocumentSnapshot senderAccount = await firestore.collection("users").doc(senderID).get();
+    UserDetails senderDetails = UserDetails.fromJson(senderAccount);
+    double senderInitWalletBalance = senderDetails.walletBalance;
+    double senderNewWalletBalance = senderInitWalletBalance - amount;
+
+    /// Receiver account
+    DocumentSnapshot receiverAccount = await firestore.collection("users").doc(receiverID).get();
+    UserDetails receiverDetails = UserDetails.fromJson(receiverAccount);
+    double receiverInitWalletBalance = receiverDetails.walletBalance;
+    double receiverNewWalletBalance = receiverInitWalletBalance + amount;
+
+    /// Credit and debit users
     try {
-      DocumentSnapshot userData =
-          await firestore.collection("users").doc(userID).get();
-      if (userData.exists) {
-        double initialBal = userData.get('walletBalance');
-        MPrint(value: "initial user wallet balance: $initialBal");
-        if (initialBal < amount) {
-          MPrint(value: ">>>>> Insufficient wallet balance <<<<<");
-          //ignore: use_build_context_synchronously
-          MFeedback(context: context).error("Insufficient wallet balance");
-          return false;
-        } else {
-          double newBal = initialBal - amount;
-          firestore
-              .collection("users")
-              .doc(userID)
-              .update({'walletBalance': newBal});
-          MPrint(value: "user successfully debited $amount naira");
-          MPrint(value: "new user wallet balance: $newBal");
-          return true;
-        }
-      } else {
-        MPrint(value: ">>>>> Invalid user <<<<<");
+      if (senderInitWalletBalance < amount) {
+        MPrint(">>>>> Insufficient wallet balance <<<<<");
         //ignore: use_build_context_synchronously
-        MFeedback(context: context).error(" Invalid user");
+        MFeedback(context: context).error("Insufficient wallet balance");
+
         return false;
+      } else {
+        /// Debit user
+        firestore.collection("users").doc(senderDetails.uid).update({'walletBalance': senderNewWalletBalance});
+        MPrint("user successfully debited $amount naira");
+        MPrint("new user wallet balance: $senderNewWalletBalance");
+
+        /// Record Debit
+        recordTransfer(false,transactionMethod, amount, transactionID, date, senderID, "remark", senderInitWalletBalance,
+            senderNewWalletBalance, receiverID, receiverInitWalletBalance, receiverNewWalletBalance);
+
+        /// Credit user
+        firestore.collection("users").doc(receiverDetails.uid).update({"walletBalance": receiverNewWalletBalance});
+        MPrint("receiver successfully credited $amount naira");
+        MPrint("new receiver wallet balance: $receiverNewWalletBalance");
+
+        /// Record credit
+        recordTransfer(true, transactionMethod, amount, transactionID, date, senderID, "remark", senderInitWalletBalance,
+            senderNewWalletBalance, receiverID, receiverInitWalletBalance, receiverNewWalletBalance);
+
+        return true;
       }
     } catch (e) {
-      MPrint(value: e.toString());
+      MPrint(e.toString());
       //ignore: use_build_context_synchronously
       MFeedback(context: context).error(e.toString());
       return false;
     }
   }
 
-  Future<bool> creditUser(BuildContext context, String userID, double amount) async{
-    try{
-      DocumentSnapshot receiverData = await firestore.collection("users").doc(userID).get();
-      if (receiverData.exists) {
-        double initialReceiverWalletBal = receiverData.get("walletBalance");
-        MPrint(value: "initial receiver wallet balance : $initialReceiverWalletBal");
-        double newReceiverWalletBal = initialReceiverWalletBal + amount;
-        firestore
-            .collection("users")
-            .doc(userID)
-            .update({"walletBalance": newReceiverWalletBal});
-        MPrint(value: "receiver successfully credited $amount naira");
-        MPrint(value: "new receiver wallet balance: $newReceiverWalletBal");
-        return true;
+  recordTransfer(
+      bool isCredit,
+      String method,
+      double amount,
+      String transactionID,
+      DateTime date,
+      String senderID,
+      String remark,
+      double senderInitBalance,
+      double senderNewBalance,
+      String receiverID,
+      double receiverInitBalance,
+      double receiverNewBalance) async {
+    DocumentSnapshot senderSnapshot = await firestore.collection("users").doc(senderID).get();
+    DocumentSnapshot receiverSnapshot = await firestore.collection("users").doc(receiverID).get();
+    UserDetails senderDetails = UserDetails.fromJson(senderSnapshot);
+    UserDetails receiverDetails = UserDetails.fromJson(receiverSnapshot);
+
+    try {
+      await firestore
+          .collection("users")
+          .doc(isCredit ? receiverID : senderID)
+          .collection(method)
+          .doc(transactionID)
+          .set({
+        "amount": amount,
+        "method": method,
+        "isCredit": isCredit ? true : false,
+        "date": date,
+        "transactionID": transactionID,
+        "remark": remark,
+        "senderUsername": senderDetails.username,
+        "senderID": senderDetails.uid,
+        "senderWalletID": senderDetails.walletID,
+        "senderInitBalance": senderInitBalance,
+        "senderNewBalance": senderNewBalance,
+        "receiverUsername": receiverDetails.username,
+        "receiverID": receiverDetails.uid,
+        "receiverWalletID": receiverDetails.walletID,
+        "receiverInitBalance": receiverInitBalance,
+        "receiverNewBalance": receiverNewBalance,
+      });
+      recordAllTransaction(isCredit, receiverID, senderID, transactionID, amount, method, date, senderDetails, receiverDetails);
+    } catch (e) {
+      MPrint(e.toString());
+    }
+  }
+
+  recordAllTransaction(bool isCredit, String receiverID, String senderID, String transactionID,
+      double amount, String method, DateTime date, UserDetails senderDetails, UserDetails receiverDetails) async{
+    await firestore
+        .collection("users")
+        .doc(isCredit ? receiverID : senderID)
+        .collection("allTransactions")
+        .doc(transactionID)
+        .set({
+      "amount": amount,
+      "method": method,
+      "isCredit": isCredit ? true : false,
+      "date": date,
+      "transactionID": transactionID,
+      "senderUsername": senderDetails.username,
+      "receiverUsername": receiverDetails.username,
+    });
+  }
+
+  Future<List<Transfer>?> getWalletTransferHistory(BuildContext context, String userID) async {
+    try {
+      List<Transfer> transferList = [];
+
+      QuerySnapshot transfersSnapshot =
+          await firestore.collection('users').doc(userID).collection('walletTransfers').get();
+      var transactions = transfersSnapshot.docs;
+      if (transactions.isNotEmpty) {
+        for (var transaction in transactions) {
+          if (transaction.exists) {
+            Transfer t = Transfer.fromJson(transaction);
+            transferList.add(t);
+          }
+        }
+        return transferList;
       } else {
-        MPrint(value: "Receiver with ID $userID does not exist");
-        //ignore: use_build_context_synchronously
-        MFeedback(context: context).error("Receiver with ID $userID does not exist");
-        return false;
+        MPrint('No transactions yet');
+        return null;
       }
-    }catch(e){
-      MPrint(value: e.toString());
-      //ignore: use_build_context_synchronously
-      MFeedback(context: context).error(e.toString());
-      return false;
+    } catch (e) {
+      MPrint(e.toString());
+      // ignore: use_build_context_synchronously
+      MFeedback(context: context).error('Could not get fetch transaction history now, Try again later');
+      return null;
+    }
+  }
+
+  Future<List<AllTransaction>?> getAllTransferHistory(BuildContext context, String userID) async {
+    try {
+      List<AllTransaction> allTractionList = [];
+
+      QuerySnapshot transfersSnapshot =
+      await firestore.collection('users').doc(userID).collection('allTransactions').get();
+      var transactions = transfersSnapshot.docs;
+      if (transactions.isNotEmpty) {
+        for (var transaction in transactions) {
+          if (transaction.exists) {
+            AllTransaction t = AllTransaction.fromJson(transaction);
+            allTractionList.add(t);
+          }
+        }
+        return allTractionList;
+      } else {
+        MPrint('No transactions yet');
+        return null;
+      }
+    } catch (e) {
+      MPrint(e.toString());
+      // ignore: use_build_context_synchronously
+      MFeedback(context: context).error('Could not get fetch transaction history now, Try again later');
+      return null;
     }
   }
 }

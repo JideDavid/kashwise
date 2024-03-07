@@ -1,58 +1,83 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Transaction {
-  final String uid;
-  final String username;
-  final String email;
-  final String walletTag;
-  final double walletBalance;
-  final double totalSavings;
-  final double totalOwe;
-  final int freeTransfers;
-  final String image;
+class Transfer {
+  double amount;
+  final String method;
+  final bool isCredit;
   final Timestamp date;
-  final String signInMethod;
 
-  Transaction({
-    required this.uid,
-    required this.username,
-    required this.email,
-    required this.walletTag,
-    required this.walletBalance,
-    required this.totalSavings,
-    required this.totalOwe,
-    required this.freeTransfers,
-    required this.image,
+  // transfer
+  final String transactionID;
+  final String remark;
+  final String senderUsername;
+  final String senderID;
+  final String senderWalletID;
+  final double senderInitBalance;
+  final double senderNewBalance;
+  final String receiverUsername;
+  final String receiverID;
+  final String receiverWalletID;
+  final double receiverInitBalance;
+  final double receiverNewBalance;
+
+  Transfer({
+    required this.amount,
+    required this.method,
+    required this.isCredit,
     required this.date,
-    required this.signInMethod});
 
-  factory Transaction.fromJson(DocumentSnapshot snapshot) {
-    return Transaction(
-        uid: snapshot['uid'],
-        username: snapshot['username'],
-        email: snapshot['email'],
-        walletTag: snapshot['walletTag'],
-        walletBalance: snapshot['walletBalance'].toDouble(),
-        totalSavings: snapshot['totalSavings'].toDouble(),
-        totalOwe: snapshot['totalOwe'].toDouble(),
-        freeTransfers: snapshot['freeTransfers'],
-        image: snapshot['image'],
-        date: snapshot['date'],
-        signInMethod: snapshot['signInMethod']);
+    // transfer
+    required this.transactionID,
+    required this.remark,
+    required this.senderUsername,
+    required this.senderID,
+    required this.senderWalletID,
+    required this.senderInitBalance,
+    required this.senderNewBalance,
+    required this.receiverUsername,
+    required this.receiverID,
+    required this.receiverWalletID,
+    required this.receiverInitBalance,
+    required this.receiverNewBalance,
+  });
+
+  factory Transfer.fromJson(DocumentSnapshot snapshot) {
+    return Transfer(
+      amount: snapshot['amount'],
+      method: snapshot['method'],
+      isCredit: snapshot['isCredit'],
+      date: snapshot['date'],
+      transactionID: snapshot['transactionID'],
+      remark: snapshot['remark'],
+      senderUsername: snapshot['senderUsername'],
+      senderID: snapshot['senderID'],
+      senderWalletID: snapshot['senderWalletID'],
+      senderInitBalance: snapshot['senderInitBalance'],
+      senderNewBalance: snapshot['senderNewBalance'],
+      receiverUsername: snapshot['receiverUsername'],
+      receiverID: snapshot['receiverID'],
+      receiverWalletID: snapshot['receiverWalletID'],
+      receiverInitBalance: snapshot['receiverInitBalance'],
+      receiverNewBalance: snapshot['receiverNewBalance'],
+    );
   }
 
   Map<String, dynamic> toJson() => {
-    'uid' : uid,
-    'username' : username,
-    'email': email,
-    'walletTag' : walletTag,
-    'walletBalance': walletBalance,
-    'totalSavings': totalSavings,
-    'totalOwe': totalOwe,
-    'freeTransfers': freeTransfers,
-    'image': image,
-    'date': date,
-    'signInMethod': signInMethod
-  };
-
+        'amount': amount,
+        'method': method,
+        'isCredit': isCredit,
+        'date': date,
+        'transactionID': transactionID,
+        'remark': remark,
+        'senderUsername': senderUsername,
+        'senderID': senderID,
+        'senderWalletID': senderWalletID,
+        'senderInitBalance': senderInitBalance,
+        'senderNewBalance': senderNewBalance,
+        'receiverUsername': receiverUsername,
+        'receiverID': receiverID,
+        'receiverWalletID': receiverWalletID,
+        'receiverInitBalance': receiverInitBalance,
+        'receiverNewBalance': receiverNewBalance,
+      };
 }

@@ -22,8 +22,8 @@ class _MorePageState extends State<MorePage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
+    return Scaffold(
+      body: Column(
         children: [
           ///
           ///Appbar
@@ -53,7 +53,11 @@ class _MorePageState extends State<MorePage> {
                           context
                               .read<UserSettingsProvider>()
                               .changeLightMode();
-                        })
+                        },
+                      thumbIcon: MaterialStatePropertyAll(context.watch<UserSettingsProvider>().isLightMode
+                          ? const Icon(Icons.light_mode, color: TColors.primary,)
+                          : const Icon(Icons.light_mode_outlined, color: TColors.black,)),
+                    )
                   ]),
                 ),
               ]),
@@ -78,7 +82,7 @@ class _MorePageState extends State<MorePage> {
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: TSizes.paddingSpaceLg * 3,
-                            horizontal: TSizes.paddingSpaceLg),
+                            horizontal: TSizes.paddingSpaceXl),
                         child: GestureDetector(
                           onTap: () {},
                           child: Row(
@@ -137,7 +141,7 @@ class _MorePageState extends State<MorePage> {
                           onPressed: () {},
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: TSizes.paddingSpaceLg,
+                                horizontal: TSizes.paddingSpaceXl,
                                 vertical: TSizes.paddingSpaceMd),
                             child: Row(
                               children: [
@@ -152,7 +156,7 @@ class _MorePageState extends State<MorePage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Get ${TTexts.appName} Business',
+                                      'Register a business',
                                       style: Theme.of(context)
                                           .textTheme
                                           .headlineSmall,
@@ -179,18 +183,6 @@ class _MorePageState extends State<MorePage> {
                           ),
                           subTitle: 'Download monthly statements',
                           title: 'Statements & Reports'),
-
-                      /// Saved Cards
-                      MNavButton(
-                          function: () {},
-                          iconColor: TColors.pastelVar2,
-                          icon: const Icon(
-                            Icons.credit_card,
-                            size: 18,
-                            color: TColors.pastelVar2,
-                          ),
-                          subTitle: 'Manage connected cards',
-                          title: 'Saved Cards'),
 
                       /// Get Help
                       MNavButton(
@@ -262,7 +254,8 @@ class _MorePageState extends State<MorePage> {
                       ///  Sign Out
                       GestureDetector(
                         onTap: () {
-                          // context.watch<UserDetailsProvider>().signOutGoogleUser();
+
+                          /// sign user out
                           Provider.of<UserDetailsProvider>(context, listen: false).signOutGoogleUser();
                           PersistentNavBarNavigator.pushNewScreen(
                             context,

@@ -37,13 +37,14 @@ class TColors {
   static const Color info = Color(0xFF1976D2);
 
   // Neutral Shades
-  static const Color black = Color(0xFF232323);
-  static const Color darkerGrey = Color(0xFF383838);
-  static const Color darkGrey = Color(0xFF939393);
-  static const Color grey = Color(0xFFE0E0E0);
-  static const Color softGrey = Color(0xFFF4F4F4);
-  static const Color lightGrey = Color(0xFFF9F9F9);
-  static const Color white = Color(0xFFFFFFFF);
+  static const Color black = Color(0xFF0E0E0E);
+  static const Color softBlack = Color(0xFF1A1A1A);
+  static const Color darkerGrey = Color(0xFF333333);
+  static const Color darkGrey = Color(0xFF676767);
+  static const Color grey = Color(0xFF808080);
+  static const Color lightGrey = Color(0xFFE3E3E3);
+  static const Color softWhite = Color(0xFFEEEEEE);
+  static const Color white = Color(0xFFF6F6F6);
 
   // Pastel Colors
   static const Color pastelVar1 = Color(0xFF1DB9A3);
@@ -51,6 +52,7 @@ class TColors {
   static const Color pastelVar3 = Color(0xFFF85717);
   static const Color pastelVar4 = Color(0xFFCE29A8);
   static const Color pastelVar5 = Color(0xFF06B5FF);
+  static const Color pastelVar6 = Color(0xffe58233);
 
 }
 

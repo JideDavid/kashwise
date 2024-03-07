@@ -44,14 +44,14 @@ class _TransferPageState extends State<TransferPage> {
                 //ignore: use_build_context_synchronously
                 Provider.of<UserDetailsProvider>(context, listen: false).account.username.toLowerCase()) {
           queryUsers.add(user);
-          MPrint(value: user.username);
+          MPrint(user.username);
         }
       }
-      MPrint(value: "All users added");
+      MPrint("All users added");
       setState(() {});
       return users;
     } else {
-      MPrint(value: "No user exist");
+      MPrint("No user exist");
       return null;
     }
   }
@@ -78,7 +78,7 @@ class _TransferPageState extends State<TransferPage> {
                     /// Validate amount entry
                     double? inputAmount = double.tryParse(amountController.text);
                     if (inputAmount == null) {
-                      MPrint(value: 'Input amount is not valid');
+                      MPrint('Input amount is not valid');
                     } else {
                       /// If valid, generate new QR including amount
                       amount = inputAmount;
@@ -358,7 +358,7 @@ class _TransferPageState extends State<TransferPage> {
                                     /// Wallet Id
                                     Column(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [const Text('Wallet ID:'), Text(selectedUser!.walletTag.toString())],
+                                      children: [const Text('Wallet ID:'), Text(selectedUser!.walletID.toString())],
                                     ),
                                   ],
                                 ),
@@ -405,7 +405,7 @@ class _TransferPageState extends State<TransferPage> {
                                         amount);
 
                                     if (resp) {
-                                      MPrint(value: "Transfer successful");
+                                      MPrint("Transfer successful");
                                       setState(() {
                                         loadingOverlay = false;
                                         if(mounted){
@@ -414,7 +414,7 @@ class _TransferPageState extends State<TransferPage> {
                                         }
                                       });
                                     } else {
-                                      MPrint(value: "Transfer failed");
+                                      MPrint("Transfer failed");
                                       setState(() {
                                         loadingOverlay = false;
                                       });

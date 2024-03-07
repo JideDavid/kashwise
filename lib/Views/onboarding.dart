@@ -2,8 +2,6 @@ import "package:card_swiper/card_swiper.dart";
 import "package:flutter/material.dart";
 import "package:kashwise/Views/sign_in_page.dart";
 import "package:kashwise/utils/constants/text_strings.dart";
-
-import "../Services/pref_helper.dart";
 import "../utils/constants/image_strings.dart";
 
 class OnBoarding extends StatefulWidget {
@@ -243,7 +241,6 @@ class _OnBoardingState extends State<OnBoarding> {
                 ),
                 GestureDetector(
                   onTap: (){
-                    PrefHelper().setAppIsFresh(false);
                     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
                       return const SignInPage();
                     }));

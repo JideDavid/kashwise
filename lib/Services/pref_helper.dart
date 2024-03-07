@@ -42,9 +42,10 @@ class PrefHelper{
     }
   }
 
-  setThemeMode(bool val) async {
+  Future<bool>setThemeMode(bool val) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     pref.setBool("isLight", val);
+    return val;
   }
 
   Future<bool> getHideBalance() async {

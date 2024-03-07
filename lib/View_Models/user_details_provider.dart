@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:kashwise/Models/all_transactions_model.dart';
 import 'package:kashwise/Models/user_model.dart';
 import 'package:kashwise/Services/firebase_services.dart';
 import 'package:kashwise/Services/my_printer.dart';
 import 'package:kashwise/utils/constants/enums.dart';
+
+import '../Models/transaction_model.dart';
 
 class UserDetailsProvider extends ChangeNotifier {
   late SignInMethod signInMethod;
@@ -11,13 +14,15 @@ class UserDetailsProvider extends ChangeNotifier {
   bool loading = false;
   bool isSignedIn = false;
   bool checkingSingedIn = false;
+  List<Transfer> transferList = [];
+  List<AllTransaction> allTransactionList = [];
 
   /// Sign in with google
-  Future<bool> signInWithGoogle() async {
+  Future<bool> signInWithGoogle(BuildContext context) async {
     loading = true;
     notifyListeners();
 
-    UserDetails? userDetails = await FirebaseHelper().signInWithGoogle();
+    UserDetails? userDetails = await FirebaseHelper().signInWithGoogle(context);
     if (userDetails != null) {
       account = userDetails;
       isSignedIn = true;
@@ -86,7 +91,7 @@ class UserDetailsProvider extends ChangeNotifier {
         await FirebaseHelper().refreshUserDetails(account.uid);
     if (userDetails != null) {
       account = userDetails;
-      MPrint( value: account.walletBalance.toString());
+      MPrint( account.walletBalance.toString());
       isSignedIn = true;
       loading = false;
       notifyListeners();
@@ -98,11 +103,11 @@ class UserDetailsProvider extends ChangeNotifier {
 
   /// setUserDetails
   setUserDetails(UserDetails userDetails) {
-    MPrint(value: ">>>>>>>>>>> started setting user details <<<<<<<<<<<<<<<<");
+    MPrint(">>>>>>>>>>> started setting user details <<<<<<<<<<<<<<<<");
     account = userDetails;
     notifyListeners();
     if (kDebugMode) {
-      MPrint(value: ">>>>>>>>>>> user details has been set <<<<<<<<<<<<<<<<");
+      MPrint(">>>>>>>>>>> user details has been set <<<<<<<<<<<<<<<<");
     }
   }
 
@@ -128,4 +133,36 @@ class UserDetailsProvider extends ChangeNotifier {
     isSignedIn = false;
     notifyListeners();
   }
+
+  Future<bool> getTransactionHistory(BuildContext context) async{
+    List<Transfer>? resp = await FirebaseHelper().getWalletTransferHistory(context, account.uid);
+    if(resp != null){
+      transferList = resp;
+      transferList.sort((a, b) => b.date.compareTo(a.date));
+      notifyListeners();
+      return true;
+    }else{
+      transferList = [];
+      return false;
+    }
+  }
+
+  Future<bool> getAllTransactionHistory(BuildContext context) async{
+    List<AllTransaction>? resp = await FirebaseHelper().getAllTransferHistory(context, account.uid);
+    if(resp != null){
+      allTransactionList = resp;
+      allTransactionList.sort((a, b) => b.date.compareTo(a.date));
+      notifyListeners();
+      return true;
+    }else{
+      allTransactionList = [];
+      return false;
+    }
+  }
+
+  clearTransactionHistory(){
+    transferList = [];
+    notifyListeners();
+  }
+
 }

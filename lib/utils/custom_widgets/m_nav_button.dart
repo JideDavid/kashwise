@@ -26,7 +26,7 @@ class MNavButton extends StatelessWidget {
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(
-              horizontal: TSizes.paddingSpaceLg),
+              horizontal: TSizes.paddingSpaceXl),
           child: Row(
             children: [
               Container(

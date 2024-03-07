@@ -72,7 +72,7 @@ class TSizes {
   static const double paddingSpaceSm = 4;
   static const double paddingSpaceMd = 8;
   static const double paddingSpaceLg = 12;
-  static const double paddingSpaceXl = 16;
+  static const double paddingSpaceXl = 18;
 
 
 }

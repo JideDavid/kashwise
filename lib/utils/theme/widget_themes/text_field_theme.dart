@@ -9,6 +9,9 @@ class TTextFormFieldTheme {
     errorMaxLines: 3,
     prefixIconColor: TColors.darkGrey,
     suffixIconColor: TColors.darkGrey,
+    isDense: true,
+    filled: true,
+    fillColor: TColors.darkGrey.withOpacity(0.1),
     // constraints: const BoxConstraints.expand(height: TSizes.inputFieldHeight),
     labelStyle: const TextStyle().copyWith(fontSize: TSizes.fontSizeMd, color: TColors.black),
     hintStyle: const TextStyle().copyWith(fontSize: TSizes.fontSizeSm, color: Colors.black45),
@@ -16,7 +19,7 @@ class TTextFormFieldTheme {
     floatingLabelStyle: const TextStyle().copyWith(color: TColors.black.withOpacity(0.8)),
     border: const OutlineInputBorder().copyWith(
       borderRadius: BorderRadius.circular(TSizes.inputFieldRadius),
-      borderSide: const BorderSide(width: 1, color: Colors.black45),
+      borderSide: const BorderSide(width: 1, color: TColors.darkGrey),
     ),
     enabledBorder: const OutlineInputBorder().copyWith(
       borderRadius: BorderRadius.circular(TSizes.inputFieldRadius),
@@ -40,17 +43,20 @@ class TTextFormFieldTheme {
     errorMaxLines: 2,
     prefixIconColor: TColors.darkGrey,
     suffixIconColor: TColors.darkGrey,
+    isDense: true,
+    filled: true,
     // constraints: const BoxConstraints.expand(height: TSizes.inputFieldHeight),
     labelStyle: const TextStyle().copyWith(fontSize: TSizes.fontSizeMd, color: TColors.white),
     hintStyle: const TextStyle().copyWith(fontSize: TSizes.fontSizeSm, color: TColors.grey.withOpacity(0.3)),
-    floatingLabelStyle: const TextStyle().copyWith(color: TColors.white.withOpacity(0.8)),
+    floatingLabelStyle: const TextStyle().copyWith(color: TColors.darkerGrey),
+    fillColor: TColors.darkerGrey.withOpacity(0.2),
     border: const OutlineInputBorder().copyWith(
       borderRadius: BorderRadius.circular(TSizes.inputFieldRadius),
-      borderSide: const BorderSide(width: 1, color: TColors.darkGrey),
+      borderSide: const BorderSide(width: 1, color: TColors.lightGrey),
     ),
     enabledBorder: const OutlineInputBorder().copyWith(
       borderRadius: BorderRadius.circular(TSizes.inputFieldRadius),
-      borderSide: const BorderSide(width: 1, color: TColors.darkGrey),
+      borderSide: const BorderSide(width: 1, color: TColors.lightGrey),
     ),
     focusedBorder: const OutlineInputBorder().copyWith(
       borderRadius: BorderRadius.circular(TSizes.inputFieldRadius),

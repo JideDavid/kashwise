@@ -24,18 +24,19 @@ class SaveTabSection extends StatelessWidget {
             /// Savings section
             Padding(
               padding: const EdgeInsets.symmetric(
-                  horizontal: TSizes.paddingSpaceLg,
+                  horizontal: TSizes.paddingSpaceXl,
                   vertical: TSizes.paddingSpaceSm),
               child: Container(
                 decoration: BoxDecoration(
                     color: TColors.pastelVar1,
                     borderRadius: BorderRadius.circular(20),
-                    image: const DecorationImage(image: AssetImage(TImages.savingsBG, ),opacity: 0.2, fit: BoxFit.fill)
+                    image: const DecorationImage(image: AssetImage(TImages.savingsBG, ),opacity: 0.2, fit: BoxFit.cover)
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: TSizes.paddingSpaceLg * 2,
-                      vertical: TSizes.paddingSpaceLg * 2),
+                      vertical: TSizes.paddingSpaceLg
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -101,33 +102,30 @@ class SaveTabSection extends StatelessWidget {
                         child: Row(
                           children: [
                             Expanded(
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(50),
-                                child: FilledButton(
-                                  style: Theme.of(context).filledButtonTheme.style!.copyWith(
-                                    backgroundColor: const MaterialStatePropertyAll(TColors.darkerGrey)
-                                  ),
-                                  onPressed: () {},
-                                  child: Row(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: TSizes.paddingSpaceLg),
-                                        child: Icon(
-                                          Icons.add_circle,
-                                          color:
-                                              Theme.of(context).colorScheme.secondary,
-                                        ),
+                              child: FilledButton(
+                                style: Theme.of(context).filledButtonTheme.style!.copyWith(
+                                  backgroundColor: const MaterialStatePropertyAll(TColors.white)
+                                ),
+                                onPressed: () {},
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: TSizes.paddingSpaceLg),
+                                      child: Icon(
+                                        Icons.add_circle,
+                                        color:
+                                            Theme.of(context).colorScheme.secondary,
                                       ),
-                                      Text(
-                                        'Add Pouch',
-                                        style:
-                                            Theme.of(context).textTheme.headlineSmall!.copyWith(
-                                              color: TColors.pastelVar1
-                                            )
-                                      )
-                                    ],
-                                  ),
+                                    ),
+                                    Text(
+                                      'Add Pouch',
+                                      style:
+                                          Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                            color: TColors.pastelVar1
+                                          )
+                                    )
+                                  ],
                                 ),
                               ),
                             ),
@@ -148,9 +146,9 @@ class SaveTabSection extends StatelessWidget {
             /// Pockets
             Padding(
               padding:
-                  const EdgeInsets.symmetric(horizontal: TSizes.paddingSpaceLg),
+                  const EdgeInsets.symmetric(horizontal: TSizes.paddingSpaceXl),
               child: SizedBox(
-                height: SizeConfig.screenHeight * 0.58,
+                height: SizeConfig.screenHeight * 0.5,
                 width: SizeConfig.screenWidth,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
@@ -184,8 +182,7 @@ class SaveTabSection extends StatelessWidget {
                             .filledButtonTheme
                             .style
                             ?.copyWith(
-                                backgroundColor: MaterialStatePropertyAll(
-                                    Theme.of(context).primaryColor)),
+                                backgroundColor: const MaterialStatePropertyAll(TColors.pastelVar1)),
                         onPressed: () {},
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,

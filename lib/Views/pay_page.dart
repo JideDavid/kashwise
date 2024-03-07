@@ -8,8 +8,8 @@ class PayPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return SafeArea(
-      child: Column(
+    return Scaffold(
+      body: Column(
         children: [
 
           ///
@@ -63,7 +63,7 @@ class PayPage extends StatelessWidget {
           /// Content body
            SingleChildScrollView(
             child: Padding(padding: const EdgeInsets.symmetric(
-                horizontal: TSizes.paddingSpaceLg),
+                horizontal: TSizes.paddingSpaceXl),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
 
@@ -76,7 +76,7 @@ class PayPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(
                       vertical: TSizes.paddingSpaceLg,),
-                  child: Text('Essentials',
+                  child: Text('Services',
                       style: Theme.of(context)
                           .textTheme
                           .headlineSmall
@@ -182,192 +182,135 @@ class PayPage extends StatelessWidget {
 
                 const SizedBox(height: TSizes.paddingSpaceLg,),
 
-                ///
-                /// Cardless payments section
-
-                /// Section headline
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: TSizes.paddingSpaceLg,),
-                  child: Text('Cardless Payments',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall
-                          ?.copyWith(fontSize: 14)),
-                ),
-
                 /// Buttons
-                Column(
-                  children: [
-                    FittedBox(
-                      child: Column(
-                        children: [
-                          /// Row 1
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              /// Pay ID
-                              FilledButton(
-                                style: Theme.of(context).filledButtonTheme.style!.copyWith(
-                                  fixedSize: MaterialStatePropertyAll(Size(SizeConfig.screenWidth * 0.22, SizeConfig.screenWidth * 0.22)),
-                                ),
-                                onPressed: (){},
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      Icons.qr_code_scanner_sharp,
-                                      color: TColors.pastelVar5,
-                                    ),
-                                    Text(
-                                      'Pay ID',
-                                      style: Theme.of(context).textTheme.bodySmall,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(width: TSizes.paddingSpaceLg,),
-
-                              /// USSD
-                              FilledButton(
-                                style: Theme.of(context).filledButtonTheme.style!.copyWith(
-                                  fixedSize: MaterialStatePropertyAll(Size(SizeConfig.screenWidth * 0.22, SizeConfig.screenWidth * 0.22)),
-
-                                ),
-                                onPressed: () {},
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      Icons.tag,
-                                      color: TColors.pastelVar4,
-                                    ),
-                                    Text(
-                                      'USSD',
-                                      style: Theme.of(context).textTheme.bodySmall,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(width: TSizes.paddingSpaceLg,),
-
-                              /// POS
-                              FilledButton(
-                                style: Theme.of(context).filledButtonTheme.style!.copyWith(
-                                  fixedSize: MaterialStatePropertyAll(Size(SizeConfig.screenWidth * 0.22, SizeConfig.screenWidth * 0.22)),
-                                ),
-                                onPressed: () {},
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      Icons.point_of_sale,
-                                      color: TColors.pastelVar2,
-                                    ),
-                                    Text(
-                                      'POS',
-                                      style: Theme.of(context).textTheme.bodySmall,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(width: TSizes.paddingSpaceLg,),
-
-                              /// ATM
-                              FilledButton(
-                                style: Theme.of(context).filledButtonTheme.style!.copyWith(
-                                  fixedSize: MaterialStatePropertyAll(Size(SizeConfig.screenWidth * 0.22, SizeConfig.screenWidth * 0.22)),
-                                ),
-                                onPressed: () {},
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      Icons.credit_card_sharp,
-                                      color: TColors.pastelVar1,
-                                    ),
-                                    Text(
-                                      'ATM',
-                                      style: Theme.of(context).textTheme.bodySmall,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-
-                          const SizedBox(height: TSizes.paddingSpaceLg,),
-
-                          /// Row 2
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              /// Business
-                              FilledButton(
-                                style: Theme.of(context).filledButtonTheme.style!.copyWith(
-                                  fixedSize: MaterialStatePropertyAll(Size(SizeConfig.screenWidth * 0.22, SizeConfig.screenWidth * 0.22)),
-                                ),
-                                onPressed: (){},
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      Icons.add_business_rounded,
-                                      color: TColors.pastelVar3,
-                                    ),
-                                    Text(
-                                      'Business',
-                                      style: Theme.of(context).textTheme.bodySmall,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(width: TSizes.paddingSpaceLg,),
-
-                              /// Empty
-                              SizedBox(width: SizeConfig.screenWidth * 0.22,),
-                              const SizedBox(width: TSizes.paddingSpaceLg,),
-
-                              /// Empty
-                              SizedBox(width: SizeConfig.screenWidth * 0.22,),
-                              const SizedBox(width: TSizes.paddingSpaceLg,),
-
-                              /// Empty
-                              SizedBox(width: SizeConfig.screenWidth * 0.22,),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: TSizes.paddingSpaceLg,),
-
-                ///
-                /// Essentials section
-
-                /// Section headline
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: TSizes.paddingSpaceLg,),
-                  child: Text('Essentials',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall
-                          ?.copyWith(fontSize: 14)),
-                ),
-
-                /// Buttons
-                Column(
-                  children: [
-                    FittedBox(
-                      child: Row(
+                FittedBox(
+                  child: Column(
+                    children: [
+                      /// Row 1
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         mainAxisSize: MainAxisSize.max,
                         children: [
+                          /// Pay ID
+                          FilledButton(
+                            style: Theme.of(context).filledButtonTheme.style!.copyWith(
+                              fixedSize: MaterialStatePropertyAll(Size(SizeConfig.screenWidth * 0.22, SizeConfig.screenWidth * 0.22)),
+                            ),
+                            onPressed: (){},
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(
+                                  Icons.qr_code_scanner_sharp,
+                                  color: TColors.pastelVar5,
+                                ),
+                                Text(
+                                  'Pay ID',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                )
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: TSizes.paddingSpaceLg,),
+
+                          /// USSD
+                          FilledButton(
+                            style: Theme.of(context).filledButtonTheme.style!.copyWith(
+                              fixedSize: MaterialStatePropertyAll(Size(SizeConfig.screenWidth * 0.22, SizeConfig.screenWidth * 0.22)),
+
+                            ),
+                            onPressed: () {},
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(
+                                  Icons.tag,
+                                  color: TColors.pastelVar4,
+                                ),
+                                Text(
+                                  'USSD',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                )
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: TSizes.paddingSpaceLg,),
+
+                          /// POS
+                          FilledButton(
+                            style: Theme.of(context).filledButtonTheme.style!.copyWith(
+                              fixedSize: MaterialStatePropertyAll(Size(SizeConfig.screenWidth * 0.22, SizeConfig.screenWidth * 0.22)),
+                            ),
+                            onPressed: () {},
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(
+                                  Icons.point_of_sale,
+                                  color: TColors.pastelVar2,
+                                ),
+                                Text(
+                                  'POS',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                )
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: TSizes.paddingSpaceLg,),
+
+                          /// ATM
+                          FilledButton(
+                            style: Theme.of(context).filledButtonTheme.style!.copyWith(
+                              fixedSize: MaterialStatePropertyAll(Size(SizeConfig.screenWidth * 0.22, SizeConfig.screenWidth * 0.22)),
+                            ),
+                            onPressed: () {},
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(
+                                  Icons.credit_card_sharp,
+                                  color: TColors.pastelVar1,
+                                ),
+                                Text(
+                                  'ATM',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: TSizes.paddingSpaceLg,),
+
+                      /// Row 2
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          /// Business
+                          FilledButton(
+                            style: Theme.of(context).filledButtonTheme.style!.copyWith(
+                              fixedSize: MaterialStatePropertyAll(Size(SizeConfig.screenWidth * 0.22, SizeConfig.screenWidth * 0.22)),
+                            ),
+                            onPressed: (){},
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(
+                                  Icons.add_business_rounded,
+                                  color: TColors.pastelVar3,
+                                ),
+                                Text(
+                                  'Business',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                )
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: TSizes.paddingSpaceLg,),
+
+
                           /// Betting
                           FilledButton(
                             style: Theme.of(context).filledButtonTheme.style!.copyWith(
@@ -433,16 +376,13 @@ class PayPage extends StatelessWidget {
                               ],
                             ),
                           ),
-                          const SizedBox(width: TSizes.paddingSpaceLg,),
-
-                          /// Empty
-                          SizedBox(width: SizeConfig.screenWidth * 0.22,),
                         ],
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
 
+                const SizedBox(height: TSizes.paddingSpaceLg,),
               ],
             ),
             ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kashwise/utils/constants/size_config.dart';
 
 import '../constants/colors.dart';
 

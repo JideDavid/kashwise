@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:kashwise/View_Models/user_settings_provider.dart';
 import 'package:kashwise/Views/payment_screens/scan_qr_page.dart';
 import 'package:kashwise/Views/payment_screens/transfer.dart';
 import 'package:kashwise/utils/custom_widgets/m_nav_button.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
-import '../View_Models/user_details_provider.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/image_strings.dart';
 import '../utils/constants/size_config.dart';
@@ -16,8 +16,8 @@ class SendPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
+    return Scaffold(
+      body: Column(
         children: [
           ///
           ///Appbar
@@ -63,119 +63,6 @@ class SendPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ///
-                  /// Add beneficiary section
-
-                  ///Section headline
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: TSizes.paddingSpaceLg,
-                        horizontal: TSizes.paddingSpaceLg),
-                    child: Text('Beneficiaries',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineSmall
-                            ?.copyWith(fontSize: 14)),
-                  ),
-
-                  ///Add beneficiary button
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: TSizes.paddingSpaceLg),
-                    child: Container(
-                      width: double.maxFinite,
-                      height: SizeConfig.screenHeight * 0.08,
-                      decoration: BoxDecoration(
-                          color: Colors.grey.withOpacity(0.22),
-                          borderRadius: BorderRadius.circular(8)),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: TSizes.paddingSpaceLg),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Send to Beneficiaries',
-                                  style:
-                                      Theme.of(context).textTheme.headlineSmall,
-                                ),
-                                Text('Add beneficiary to get started.',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall
-                                        ?.copyWith(
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 12)),
-                              ],
-                            ),
-                            GestureDetector(
-                                onTap: () {},
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: TColors.accent,
-                                      borderRadius: BorderRadius.circular(4)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: TSizes.paddingSpaceLg * 1.8,
-                                        vertical: TSizes.paddingSpaceSm),
-                                    child: Text(
-                                      'Add',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall
-                                          ?.copyWith(
-                                              fontSize: 12,
-                                              color: Colors.black),
-                                    ),
-                                  ),
-                                ))
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(
-                    height: TSizes.paddingSpaceLg * 2,
-                  ),
-
-                  ///
-                  ///Transfer Section
-
-                  ///Free transfer count
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: TSizes.paddingSpaceLg),
-                    child: Row(
-                      children: [
-                        Text('Free transfer to other banks ',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall
-                                ?.copyWith(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.normal)),
-                        Text(
-                            context
-                                .watch<UserDetailsProvider>()
-                                .account
-                                .freeTransfers
-                                .toString(),
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall
-                                ?.copyWith()),
-                      ],
-                    ),
-                  ),
-
-                  const SizedBox(
-                    height: TSizes.paddingSpaceLg * 2,
-                  ),
 
                   ///Send to app user via WalletID
                   FilledButton(
@@ -195,7 +82,7 @@ class SendPage extends StatelessWidget {
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: TSizes.paddingSpaceLg),
+                            horizontal: TSizes.paddingSpaceXl),
                         child: Row(
                           children: [
                             Image.asset(
@@ -259,7 +146,7 @@ class SendPage extends StatelessWidget {
                       onPressed: () {},
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: TSizes.paddingSpaceLg),
+                            horizontal: TSizes.paddingSpaceXl),
                         child: Row(
                           children: [
                             Image.asset(
@@ -304,7 +191,7 @@ class SendPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: TSizes.paddingSpaceLg,
-                        horizontal: TSizes.paddingSpaceLg),
+                        horizontal: TSizes.paddingSpaceXl),
                     child: Text('Recent Transactions',
                         style: Theme.of(context)
                             .textTheme
@@ -315,13 +202,16 @@ class SendPage extends StatelessWidget {
                   ///empty transaction view
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: TSizes.paddingSpaceLg),
+                        horizontal: TSizes.paddingSpaceXl),
                     child: Container(
                       height: SizeConfig.screenHeight * 0.3,
                       width: double.maxFinite,
                       decoration: BoxDecoration(
-                          color: Colors.grey.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(8)),
+                          // color: Provider.of<UserSettingsProvider>(context).isLightMode
+                          //     ? TColors.white : TColors.darkerGrey,
+                          borderRadius: BorderRadius.circular(8),
+                        border: Border.all(width: 1, color: TColors.grey.withOpacity(0.5))
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -363,83 +253,88 @@ class SendPage extends StatelessWidget {
                   const SizedBox(
                     height: TSizes.paddingSpaceLg,
                   ),
-
-                  ///
-                  /// Friends on app section
-
-                  ///Section headline
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: TSizes.paddingSpaceLg,
-                        horizontal: TSizes.paddingSpaceLg),
-                    child: Text('Friends on ${TTexts.appName}',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineSmall
-                            ?.copyWith(fontSize: 14)),
-                  ),
-
-                  ///Sync contact button
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: TSizes.paddingSpaceLg),
-                    child: Container(
-                      width: double.maxFinite,
-                      height: SizeConfig.screenHeight * 0.08,
-                      decoration: BoxDecoration(
-                          color: Colors.grey.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(8)),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: TSizes.paddingSpaceLg),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Sync your Contacts',
-                                  style:
-                                      Theme.of(context).textTheme.headlineSmall,
-                                ),
-                                Text('Free payments to contacts',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall
-                                        ?.copyWith(
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 12)),
-                              ],
-                            ),
-                            GestureDetector(
-                                onTap: () {},
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: TColors.accent,
-                                      borderRadius: BorderRadius.circular(4)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: TSizes.paddingSpaceLg * 1.8,
-                                        vertical: TSizes.paddingSpaceSm),
-                                    child: Text(
-                                      'Connect',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall
-                                          ?.copyWith(
-                                              fontSize: 12,
-                                              color: Colors.black),
-                                    ),
-                                  ),
-                                ))
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
                 ],
+              ),
+            ),
+          ),
+
+          ///
+          /// Friends on app section
+
+          ///Section headline
+          Padding(
+            padding: const EdgeInsets.symmetric(
+                vertical: TSizes.paddingSpaceLg,
+                horizontal: TSizes.paddingSpaceXl),
+            child: Row(
+              children: [
+                Text('Friends on ${TTexts.appName}',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineSmall
+                        ?.copyWith(fontSize: 14)),
+              ],
+            ),
+          ),
+
+          ///Sync contact button
+          Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: TSizes.paddingSpaceXl),
+            child: Container(
+              width: double.maxFinite,
+              height: SizeConfig.screenHeight * 0.08,
+              decoration: BoxDecoration(
+                  color: Provider.of<UserSettingsProvider>(context).isLightMode
+                      ? TColors.white : TColors.darkerGrey,
+                  borderRadius: BorderRadius.circular(8)),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: TSizes.paddingSpaceLg),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Sync your Contacts',
+                          style:
+                          Theme.of(context).textTheme.headlineSmall,
+                        ),
+                        Text('Free payments to contacts',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(
+                                fontWeight: FontWeight.normal,
+                                fontSize: 12)),
+                      ],
+                    ),
+                    GestureDetector(
+                        onTap: () {},
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: TColors.accent,
+                              borderRadius: BorderRadius.circular(4)),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: TSizes.paddingSpaceLg * 1.8,
+                                vertical: TSizes.paddingSpaceSm),
+                            child: Text(
+                              'Connect',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(
+                                  fontSize: 12,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ))
+                  ],
+                ),
               ),
             ),
           ),

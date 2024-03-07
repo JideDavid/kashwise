@@ -8,7 +8,7 @@ class QRScanner {
      String resp = await FlutterBarcodeScanner.scanBarcode('#FFFFFF', 'cancel', true, ScanMode.QR);
      return resp;
    }on PlatformException{
-      MPrint(value: 'Failed to read QR Code');
+      MPrint('Failed to read QR Code');
       return null;
     }
   }

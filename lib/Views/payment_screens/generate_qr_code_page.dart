@@ -30,7 +30,7 @@ class _GenerateQRCodePageState extends State<GenerateQRCodePage> {
         hasAmount: false,
         walletTag: Provider.of<UserDetailsProvider>(context, listen: false)
             .account
-            .walletTag,
+            .walletID,
         username: Provider.of<UserDetailsProvider>(context, listen: false)
             .account
             .username,
@@ -41,7 +41,7 @@ class _GenerateQRCodePageState extends State<GenerateQRCodePage> {
     amount =0;
     qRValue = payReq;
     Map<String, dynamic> resp = jsonDecode(payReq);
-    MPrint(value: resp['walletTag'].toString());
+    MPrint(resp['walletTag'].toString());
     setState(() {});
   }
 
@@ -51,7 +51,7 @@ class _GenerateQRCodePageState extends State<GenerateQRCodePage> {
         hasAmount: true,
         walletTag: Provider.of<UserDetailsProvider>(context, listen: false)
             .account
-            .walletTag,
+            .walletID,
         username: Provider.of<UserDetailsProvider>(context, listen: false)
             .account
             .username,
@@ -62,7 +62,7 @@ class _GenerateQRCodePageState extends State<GenerateQRCodePage> {
     amount = reqAmount;
     qRValue = payReq;
     Map<String, dynamic> resp = jsonDecode(payReq);
-    MPrint(value: resp['walletTag'].toString());
+    MPrint(resp['walletID'].toString());
     setState(() {});
   }
 
@@ -206,7 +206,7 @@ class _GenerateQRCodePageState extends State<GenerateQRCodePage> {
                                       Text(Provider.of<UserDetailsProvider>(
                                               context)
                                           .account
-                                          .walletTag),
+                                          .walletID),
                                     ],
                                   ),
                                 ),
@@ -264,7 +264,7 @@ class _GenerateQRCodePageState extends State<GenerateQRCodePage> {
                                       /// Validate amount entry
                                       double? inputAmount = double.tryParse(amountController.text);
                                       if(inputAmount == null){
-                                        MPrint(value: 'Input amount is not valid');
+                                        MPrint('Input amount is not valid');
                                       }else{
                                         /// If valid, generate new QR including amount
                                         generateOpenQRCodeWithAmount(inputAmount);

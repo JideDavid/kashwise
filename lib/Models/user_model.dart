@@ -4,7 +4,7 @@ class UserDetails {
   final String uid;
   final String username;
   final String email;
-  final String walletTag;
+  final String walletID;
   final double walletBalance;
   final double totalSavings;
   final double totalOwe;
@@ -14,38 +14,41 @@ class UserDetails {
   final String signInMethod;
 
   UserDetails(
-      {required this.uid,
+      {
+        required this.uid,
       required this.username,
       required this.email,
-      required this.walletTag,
+      required this.walletID,
       required this.walletBalance,
       required this.totalSavings,
       required this.totalOwe,
       required this.freeTransfers,
       required this.image,
       required this.date,
-      required this.signInMethod});
+      required this.signInMethod
+      });
 
   factory UserDetails.fromJson(DocumentSnapshot snapshot) {
     return UserDetails(
         uid: snapshot['uid'],
         username: snapshot['username'],
         email: snapshot['email'],
-        walletTag: snapshot['walletTag'],
+        walletID: snapshot['walletID'],
         walletBalance: snapshot['walletBalance'].toDouble(),
         totalSavings: snapshot['totalSavings'].toDouble(),
         totalOwe: snapshot['totalOwe'].toDouble(),
         freeTransfers: snapshot['freeTransfers'],
         image: snapshot['image'],
         date: snapshot['date'],
-        signInMethod: snapshot['signInMethod']);
+        signInMethod: snapshot['signInMethod']
+    );
   }
 
   Map<String, dynamic> toJson() => {
     'uid' : uid,
     'username' : username,
     'email': email,
-    'walletTag' : walletTag,
+    'walletID' : walletID,
     'walletBalance': walletBalance,
     'totalSavings': totalSavings,
     'totalOwe': totalOwe,

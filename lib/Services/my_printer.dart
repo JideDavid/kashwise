@@ -1,11 +1,10 @@
 import 'package:flutter/foundation.dart';
 
 class MPrint{
-  String value;
 
-  MPrint({required this.value}){
+  MPrint(String value){
     if(kDebugMode){
-      print(value);
+      print(">>>>>>>>>> $value <<<<<<<<<<");
     }
   }
 
