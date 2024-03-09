@@ -6,7 +6,7 @@ import 'package:kashwise/Services/firebase_services.dart';
 import 'package:kashwise/Services/my_printer.dart';
 import 'package:kashwise/utils/constants/enums.dart';
 
-import '../Models/transaction_model.dart';
+import '../Models/transfer_model.dart';
 
 class UserDetailsProvider extends ChangeNotifier {
   late SignInMethod signInMethod;
@@ -14,7 +14,7 @@ class UserDetailsProvider extends ChangeNotifier {
   bool loading = false;
   bool isSignedIn = false;
   bool checkingSingedIn = false;
-  List<Transfer> transferList = [];
+  List<TransferInvoice> transferList = [];
   List<AllTransaction> allTransactionList = [];
 
   /// Sign in with google
@@ -135,7 +135,7 @@ class UserDetailsProvider extends ChangeNotifier {
   }
 
   Future<bool> getTransactionHistory(BuildContext context) async{
-    List<Transfer>? resp = await FirebaseHelper().getWalletTransferHistory(context, account.uid);
+    List<TransferInvoice>? resp = await FirebaseHelper().getWalletTransferHistory(context, account.uid);
     if(resp != null){
       transferList = resp;
       transferList.sort((a, b) => b.date.compareTo(a.date));

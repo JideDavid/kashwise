@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kashwise/Models/all_transactions_model.dart';
-import 'package:kashwise/Models/transaction_model.dart';
+import 'package:kashwise/Models/transfer_model.dart';
 import 'package:kashwise/Services/my_printer.dart';
 import 'package:kashwise/utils/constants/text_strings.dart';
 import 'package:kashwise/utils/custom_widgets/m_error_dialog.dart';
@@ -436,14 +436,14 @@ class FirebaseHelper {
         "receiverInitBalance": receiverInitBalance,
         "receiverNewBalance": receiverNewBalance,
       });
-      recordAllTransaction(isCredit, receiverID, senderID, transactionID, amount, method, date, senderDetails, receiverDetails);
+      recordAllTransaction(isCredit, receiverID, senderID, transactionID, amount, method, date, senderDetails.username, receiverDetails.username);
     } catch (e) {
       MPrint(e.toString());
     }
   }
 
   recordAllTransaction(bool isCredit, String receiverID, String senderID, String transactionID,
-      double amount, String method, DateTime date, UserDetails senderDetails, UserDetails receiverDetails) async{
+      double amount, String method, DateTime date, String senderUsername, String receiverUsername) async{
     await firestore
         .collection("users")
         .doc(isCredit ? receiverID : senderID)
@@ -455,14 +455,14 @@ class FirebaseHelper {
       "isCredit": isCredit ? true : false,
       "date": date,
       "transactionID": transactionID,
-      "senderUsername": senderDetails.username,
-      "receiverUsername": receiverDetails.username,
+      "senderUsername": senderUsername,
+      "receiverUsername": receiverUsername,
     });
   }
 
-  Future<List<Transfer>?> getWalletTransferHistory(BuildContext context, String userID) async {
+  Future<List<TransferInvoice>?> getWalletTransferHistory(BuildContext context, String userID) async {
     try {
-      List<Transfer> transferList = [];
+      List<TransferInvoice> transferList = [];
 
       QuerySnapshot transfersSnapshot =
           await firestore.collection('users').doc(userID).collection('walletTransfers').get();
@@ -470,7 +470,7 @@ class FirebaseHelper {
       if (transactions.isNotEmpty) {
         for (var transaction in transactions) {
           if (transaction.exists) {
-            Transfer t = Transfer.fromJson(transaction);
+            TransferInvoice t = TransferInvoice.fromJson(transaction);
             transferList.add(t);
           }
         }
@@ -511,6 +511,64 @@ class FirebaseHelper {
       // ignore: use_build_context_synchronously
       MFeedback(context: context).error('Could not get fetch transaction history now, Try again later');
       return null;
+    }
+  }
+
+  Future<bool> buyAirtime(String userID, double amount, String phoneNumber, String serviceProvider) async{
+    DocumentSnapshot userData = await firestore.collection("users").doc(userID).get();
+    double initBal= 0;
+    double newBal = 0;
+    
+    /// Date and time
+    DateTime date = DateTime.now();
+
+    /// Generate a transaction ID
+    String transactionID = "Ref${Nonce(15)}";
+
+    try{
+      ///
+      /// Debit user
+      if(userData.exists){
+        UserDetails user = UserDetails.fromJson(userData);
+        initBal = user.walletBalance;
+
+        newBal = initBal - amount;
+
+        await firestore.collection("users").doc(userID).update({"walletBalance": newBal});
+
+        ///
+        /// Todo: Load airtime to phone number
+
+        ///
+        /// Record airtime transaction
+        await recordAirtimePurchase(amount, date, transactionID, userID, initBal, newBal, phoneNumber, serviceProvider);
+
+        ///
+        /// Record airtime transaction in global
+        await recordAllTransaction(false, phoneNumber, userID, transactionID, amount, "airtime", date, user.username, phoneNumber);
+      }
+    }catch(e){
+      MPrint(e.toString());
+      return false;
+    }
+
+    return true;
+  }
+
+
+  recordAirtimePurchase(
+  double amount, DateTime date, String transactionID, 
+      String userID, double userInitialBalance,
+   double userNewBalance, String phoneNumber, String serviceProvider
+      )async {
+    try{
+      await firestore.collection("users").doc(userID).collection("airtimePurchase").doc(transactionID).set({
+        "amount": amount, "method": "airtime", "isCredit": false, "date": date, "transactionID": transactionID,
+        "userID": userID, "userInitialBalance": userInitialBalance, "userNewBalance": userNewBalance,
+        "phoneNumber": phoneNumber, "serviceProvider": serviceProvider
+      });
+    }catch(e){
+      MPrint(e.toString());
     }
   }
 }

@@ -18,5 +18,5 @@ enum UserInitType{ login,  signUp}
 
 enum InvestType{ p2p, business, stock}
 
-enum Method{ walletTransfer, walletFunding, airtime}
+enum ServiceProvider{ mtn, airtel, glo, nMobile}
 

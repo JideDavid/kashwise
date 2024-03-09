@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kashwise/Views/services_screens/airtime.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/size_config.dart';
 import '../utils/constants/sizes.dart';
@@ -94,7 +96,10 @@ class PayPage extends StatelessWidget {
                         style: Theme.of(context).filledButtonTheme.style!.copyWith(
                           fixedSize: MaterialStatePropertyAll(Size(SizeConfig.screenWidth * 0.22, SizeConfig.screenWidth * 0.22)),
                         ),
-                        onPressed: (){},
+                        onPressed: (){
+                          PersistentNavBarNavigator.pushNewScreen(context, screen: AirtimePage(),
+                          withNavBar: false, pageTransitionAnimation: PageTransitionAnimation.cupertino);
+                        },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

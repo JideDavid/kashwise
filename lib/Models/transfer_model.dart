@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Transfer {
-  double amount;
+class TransferInvoice {
+  final double amount;
   final String method;
   final bool isCredit;
   final Timestamp date;
@@ -20,7 +20,7 @@ class Transfer {
   final double receiverInitBalance;
   final double receiverNewBalance;
 
-  Transfer({
+  TransferInvoice({
     required this.amount,
     required this.method,
     required this.isCredit,
@@ -41,8 +41,8 @@ class Transfer {
     required this.receiverNewBalance,
   });
 
-  factory Transfer.fromJson(DocumentSnapshot snapshot) {
-    return Transfer(
+  factory TransferInvoice.fromJson(DocumentSnapshot snapshot) {
+    return TransferInvoice(
       amount: snapshot['amount'],
       method: snapshot['method'],
       isCredit: snapshot['isCredit'],

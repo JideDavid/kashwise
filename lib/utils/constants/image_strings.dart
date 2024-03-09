@@ -71,6 +71,15 @@ class TImages {
   static const String logoCardVar5 = "assets/icons/logo_card_5.png";
   static const String logoCardVar6 = "assets/icons/logo_card_6.png";
 
+  // -- Service Providers
+  static const String mtnActive = "assets/icons/MTN Active.png";
+  static const String mtnDisable = "assets/icons/MTN Disabled.png";
+  static const String airtelActive = "assets/icons/AIRTEL Active.png";
+  static const String airtelDisable = "assets/icons/AIRTEL Disabled.png";
+  static const String gloActive = "assets/icons/GLO Active.png";
+  static const String gloDisable = "assets/icons/GLO Disabled.png";
+  static const String nmobileActive = "assets/icons/9MOBILE Active.png";
+  static const String nmobileDisable = "assets/icons/9MOBILE Disabled.png";
 
 
   // -- Animations
